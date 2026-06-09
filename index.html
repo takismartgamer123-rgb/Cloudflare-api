@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
+  <title>TAKI ULTIMATE V13.4 EMPEROR 👑</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: transparent;
+      color: #fff;
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .particle { position: absolute; font-size: 20px; animation: float 10s linear infinite; opacity: 0; }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+    
+    .bg-animated { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
+    .mode-fajr.bg-animated { background: radial-gradient(circle, #0B132B 0%, #000 100%); animation: stars 50s linear infinite; }
+    .mode-main.bg-animated { background: linear-gradient(135deg, #001F3F 0%, #000 100%); animation: lightning-bg 3s ease-in-out infinite; }
+    .mode-million.bg-animated { background: linear-gradient(135deg, #3F2F00 0%, #000 100%); animation: gold-rain 5s linear infinite; }
+    .mode-event.bg-animated { background: linear-gradient(135deg, #3F0000 0%, #000 100%); animation: fire 2s ease-in-out infinite; }
+    @keyframes stars { 0% { background-position: 0 0; } 100% { background-position: 1000px 1000px; } }
+    @keyframes lightning-bg { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
+    @keyframes gold-rain { 0% { background-position: 0 -100%; } 100% { background-position: 0 100%; } }
+    @keyframes fire { 0%, 100% { filter: hue-rotate(0deg) brightness(1); } 50% { filter: hue-rotate(10deg) brightness(1.2); } }
+    
+    .screen { width: 100%; height: 100%; position: relative; overflow: hidden; z-index: 2; }
+    
+    .achievement-ticker { background: linear-gradient(90deg, #FFD700, #FF0000, #FFD700); color: #000; padding: 8px; font-size: 14px; font-weight: 900; white-space: nowrap; overflow: hidden; animation: rainbow-border 3s linear infinite; }
+    @keyframes rainbow-border { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+    .ticker-content { display: inline-block; animation: scroll 15s linear infinite; }
+    @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    
+    .mode-timer { background: rgba(0,0,0,0.8); padding: 5px; text-align: center; font-size: 13px; font-weight: 700; border-bottom: 2px solid #FFD700; }
+    .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.2); margin-top: 3px; }
+    .timer-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF0000); width: 100%; transition: width 1s linear; }
+    
+    .header { background: rgba(0,0,0,0.95); border: 3px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000) 1; border-radius: 15px; padding: 12px; margin: 6px; box-shadow: 0 0 30px rgba(255,215,0,0.6); animation: royal-glow 3s ease-in-out infinite; }
+    @keyframes royal-glow { 0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.6); } 50% { box-shadow: 0 0 50px rgba(255,215,0,0.9); } }
+    .channel-name { font-size: 24px; font-weight: 900; background: linear-gradient(45deg, #FFD700, #00BFFF, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; animation: text-shine 2s linear infinite; }
+    @keyframes text-shine { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+    .mode-info { font-size: 16px; text-align: center; margin-top: 5px; color: #fff; font-weight: 700; }
+    .live-status { display: inline-block; padding: 2px 8px; background: #555; border-radius: 5px; margin-left: 5px; }
+    .live-status.active { background: #FF0000; animation: pulse-live 1s infinite; }
+    @keyframes pulse-live { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    
+    .joke-box { background: linear-gradient(135deg, #4B0082, #8B008B); padding: 10px; margin: 6px; border-radius: 15px; border: 2px solid #FF69B4; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .joke-title { font-size: 15px; font-weight: 900; color: #FFD700; text-align: center; }
+    .joke-text { font-size: 14px; color: #fff; text-align: center; margin-top: 3px; }
+    
+    .motivation-box { background: linear-gradient(135deg, #006400, #00FF00); padding: 10px; margin: 6px; border-radius: 15px; text-align: center; border: 2px solid #00FF00; animation: pulse-green 1.5s ease-in-out infinite; }
+    @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 20px rgba(0,255,0,0.5); } 50% { box-shadow: 0 0 40px rgba(0,255,0,0.9); } }
+    .motivation-text { font-size: 16px; font-weight: 900; color: #000; text-shadow: 0 0 10px #fff; }
+    
+    .stats-box { background: rgba(0,0,0,0.95); padding: 12px; margin: 6px; border: 3px solid #FFD700; border-radius: 15px; box-shadow: inset 0 0 20px rgba(255,215,0,0.3); }
+    .stats-title { font-size: 16px; font-weight: 900; color: #FFD700; text-align: center; margin-bottom: 8px; text-shadow: 0 0 10px #FFD700; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 15px; margin-bottom: 10px; }
+    .stat-item { padding: 6px; background: rgba(255,255,255,0.1); border-radius: 8px; text-align: center; font-weight: 700; }
+    .stat-subs { color: #FFD700; border: 1px solid #FFD700; }
+    .stat-views { color: #00BFFF; border: 1px solid #00BFFF; }
+    .stat-videos { color: #fff; border: 1px solid #fff; }
+    .stat-record { color: #FF0000; border: 1px solid #FF0000; }
+    
+    .goal-box { margin-top: 8px; }
+    .goal-text { font-size: 13px; text-align: center; margin-bottom: 4px; font-weight: 700; }
+    .goal-bar { width: 100%; height: 18px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; border: 2px solid #FFD700; }
+    .goal-fill { height: 100%; background: linear-gradient(90deg, #FF0000, #FFD700, #00FF00); width: 0%; transition: width 0.5s ease; box-shadow: 0 0 15px #FFD700; }
+    
+    .main-content { background: rgba(0,0,0,0.9); padding: 15px; margin: 6px; text-align: center; border: 4px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000, #FFD700) 1; border-radius: 20px; min-height: 120px; position: relative; animation: content-glow 2s ease-in-out infinite; cursor: pointer; }
+    @keyframes content-glow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
+    .big-text { font-size: 22px; font-weight: 900; line-height: 1.4; text-shadow: 0 0 20px currentColor; }
+    .sub-text { font-size: 15px; color: #FFD700; margin-top: 10px; font-weight: 700; }
+    
+    /* الكلمة الذهبية */
+    .golden-word { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; padding: 8px 20px; border-radius: 20px; font-weight: 900; font-size: 18px; box-shadow: 0 0 30px #FFD700; display: none; animation: golden-pulse 1s ease-in-out infinite; z-index: 10; }
+    .golden-word.active { display: block; }
+    @keyframes golden-pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
+    
+    /* تفجير اللحظات */
+    .bomb-countdown { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: 900; color: #FF0000; text-shadow: 0 0 40px #FF0000; display: none; z-index: 100; animation: bomb-pulse 1s ease-in-out infinite; }
+    .bomb-countdown.active { display: block; }
+    @keyframes bomb-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.2); } }
+    
+    .wheel-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: rgba(0,0,0,0.95); border: 5px solid #FFD700; border-radius: 50%; display: none; z-index: 1000; box-shadow: 0 0 50px #FFD700; }
+    .wheel-container.active { display: block; animation: wheel-appear 0.5s ease; }
+    @keyframes wheel-appear { 0% { transform: translate(-50%, -50%) scale(0); } 100% { transform: translate(-50%, -50%) scale(1); } }
+    .wheel { width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#FF0000 0deg 60deg, #00FF00 60deg 120deg, #0000FF 120deg 180deg, #FFFF00 180deg 240deg, #FF00FF 240deg 300deg, #00FFFF 300deg 360deg); transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+    .wheel-pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; text-shadow: 0 0 10px #FFD700; }
+    .wheel-winner { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); background: #FFD700; color: #000; padding: 10px 20px; border-radius: 10px; font-weight: 900; font-size: 18px; white-space: nowrap; }
+    
+    .bottom-row { display: flex; gap: 6px; margin: 6px; }
+    .top3,.commands { flex: 1; background: rgba(0,0,0,0.95); padding: 12px; border: 3px solid #FFD700; border-radius: 15px; box-shadow: 0 0 20px rgba(255,215,0,0.4); }
+    .box-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; color: #FFD700; text-align: center; text-shadow: 0 0 10px #FFD700; }
+    .top3-item { font-size: 14px; margin: 6px 0; padding: 6px; background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent); border-radius: 8px; font-weight: 700; }
+    .cmd-item { font-size: 14px; margin: 6px 0; padding: 6px; background: rgba(0,191,255,0.2); border-radius: 8px; font-weight: 700; border: 1px solid #00BFFF; }
+    
+    .chat { background: rgba(0,0,0,0.95); padding: 12px; margin: 6px; border: 3px solid #FF69B4; border-radius: 15px; font-size: 14px; max-height: 120px; overflow-y: auto; box-shadow: 0 0 20px rgba(255,105,180,0.4); }
+    .chat-msg { margin: 8px 0; padding: 6px; background: rgba(255,255,255,0.08); border-radius: 8px; border-right: 3px solid #FF69B4; animation: msgSlide 0.3s ease; }
+    @keyframes msgSlide { 0% { transform: translateX(20px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+    .chat-author { color: #FF69B4; font-weight: 900; font-size: 15px; }
+    .chat-bot { color: #00FF00; font-weight: 900; }
+    .chat-alert { background: linear-gradient(90deg, #FFD700, #FF0000); color: #000; font-weight: 900; text-align: center; padding: 8px; border-radius: 8px; animation: alertPulse 0.5s ease; }
+    @keyframes alertPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    
+    .hints { background: rgba(0,0,0,0.7); padding: 6px; margin: 6px; border-radius: 10px; font-size: 11px; text-align: center; color: #FFD700; border: 1px solid #FFD700; }
+    
+    .footer { background: linear-gradient(90deg, #000, #FFD700, #000); padding: 8px; text-align: center; font-size: 12px; color: #000; font-weight: 900; margin: 6px; border-radius: 10px; }
+    
+    .controls { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 999; background: rgba(0,0,0,0.95); padding: 8px; border-radius: 15px; display: flex; gap: 6px; border: 2px solid #FFD700; }
+    .controls button { padding: 8px 12px; font-size: 12px; font-family: 'Cairo'; cursor: pointer; border: none; border-radius: 10px; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .btn-fajr { background: linear-gradient(135deg, #5BC0BE, #3A86FF); color: #fff; }
+    .btn-main { background: linear-gradient(135deg, #00BFFF, #0080FF); color: #fff; }
+    .btn-million { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
+    .btn-event { background: linear-gradient(135deg, #FF0000, #8B0000); color: #fff; }
+    
+    .lightning-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); pointer-events: none; opacity: 0; z-index: 9999; }
+    .flash-active { animation: flash 0.4s ease-out; }
+    @keyframes flash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
+    
+    .audio-control { position: fixed; top: 10px; right: 10px; z-index: 999; background: rgba(0,0,0,0.8); padding: 8px 12px; border-radius: 10px; border: 2px solid #FFD700; cursor: pointer; font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div id="particles"></div>
+  <div class="lightning-flash" id="flash"></div>
+  <div class="bg-animated"></div>
+  
+  <div class="audio-control" id="audioControl" onclick="toggleAudio()">🔊</div>
+  
+  <div class="screen mode-main" id="screen">
+    <div class="achievement-ticker">
+      <div class="ticker-content" id="ticker">👑 أكثر واحد يجمع نقاط في الأسبوع يربح إشراف على القناة لمدة 15👑|أكثر 3 يجمعون نقاط في اليوم نحط أسمائهم في بايو القناة ⚡ يوم</div>
+    </div>
+    
+    <div class="mode-timer">
+      <div id="timerText">المود الحالي: --:--</div>
+      <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+    </div>
+    
+    <div class="header">
+      <div class="channel-name">👑 ɪʈʂ ʈɑkɪ!! 🇩🇿²⁴ 👑</div>
+      <div class="mode-info" id="mode-text"><span class="live-status" id="liveStatus">⚫ أوفلاين</span> جاري التحميل...</div>
+    </div>
+    
+    <div class="joke-box">
+      <div class="joke-title">😂 نكتة الحومة</div>
+      <div class="joke-text" id="joke">واحد دخل للحومة.. لقا الكل مليونيرات.. قال: راني في الحلم ولا في TAKI؟ 😂</div>
+    </div>
+    
+    <div class="motivation-box">
+      <div class="motivation-text" id="motivation">⚡ انت أسطورة الحومة.. المليون يستناك ⚡</div>
+    </div>
+    
+    <div class="stats-box">
+      <div class="stats-title">📊 إحصائيات الإمبراطورية Live</div>
+      <div class="stats-grid">
+        <div class="stat-item stat-subs">👑 المشتركين: <span id="subCount">0</span></div>
+        <div class="stat-item stat-views">👁️ المشاهدات: <span id="viewCount">0</span></div>
+        <div class="stat-item stat-videos">🎬 الفيديوهات: <span id="videoCount">0</span></div>
+        <div class="stat-item stat-record">⚡ أسرع إجابة: 1.8ث 🏆</div>
+      </div>
+      <div class="goal-box">
+        <div class="goal-text">🎯 الهدف: <span id="goalCurrent">0</span> / <span id="goalTarget">5000</span></div>
+        <div class="goal-bar"><div class="goal-fill" id="goalFill"></div></div>
+      </div>
+    </div>
+    
+    <div class="main-content" onclick="triggerFlash()">
+      <div class="golden-word" id="goldenWord"></div>
+      <div class="bomb-countdown" id="bombCountdown"></div>
+      <div class="big-text" id="center-text">🔥 جاري التحميل... 🔥</div>
+      <div class="sub-text" id="center-sub">⚡ الإمبراطورية تستعد ⚡</div>
+      
+      <div class="wheel-container" id="wheelContainer">
+        <div class="wheel-pointer">▼</div>
+        <div class="wheel" id="wheel"></div>
+        <div class="wheel-winner" id="wheelWinner"></div>
+      </div>
+    </div>
+    
+    <div class="bottom-row">
+      <div class="top3">
+        <div class="box-title">👑 أبطال الإمبراطورية</div>
+        <div id="top3List">
+          <div class="top3-item">🥇 محمد: 500 👑</div>
+          <div class="top3-item">🥈 علي: 450 ⚡</div>
+          <div class="top3-item">🥉 فاطمة: 300 🔥</div>
+        </div>
+      </div>
+      <div class="commands">
+        <div class="box-title">⚡ أوامر الإمبراطور</div>
+        <div class="cmd-item">!لغز</div>
+        <div class="cmd-item">!جواب X</div>
+        <div class="cmd-item">!تفجير</div>
+        <div class="cmd-item">!نقاطي</div>
+        <div class="cmd-item">!ترتيب</div>
+      </div>
+    </div>
+    
+    <div class="chat" id="chatBox">
+      <div class="chat-msg"><span class="chat-author">محمد:</span> السلام عليكم يا إمبراطور ⚡👑</div>
+    </div>
+    
+    <div class="hints" id="hints">💡 اكتب !لغز للغز جديد | !جواب X للجواب | !تفجير وقت التفجير</div>
+    
+    <div class="footer">👑 مود المليون 20:00 | تابعنا @taki-off-24 | الحومة الإمبراطورية 24/7 🔥⚡</div>
+  </div>
+  
+  <div class="controls">
+    <button class="btn-fajr" onclick="manualChangeMode('fajr')">🌙 الفجر</button>
+    <button class="btn-main" onclick="manualChangeMode('main')">⚡ الحومة</button>
+    <button class="btn-million" onclick="manualChangeMode('million')">👑 المليون</button>
+    <button class="btn-event" onclick="manualChangeMode('event')">🔥 الحدث</button>
+  </div>
+
+  <audio id="quranAudio" loop>
+    <source src="https://server8.mp3quran.net/afs/001.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="funkAudio" loop>
+    <source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const API_URL = 'https://sad-anchovy-80.takismartgamer123-rgb.deno.net';
+    
+    const jokes = [
+"واحد دخل للحومة.. لقا الكل مليونيرات.. قال: راني في الحلم ولا في TAKI؟ 😂",
+"قالو للأستاذ علاش ما تدخلش لايف TAKI؟ قال: نخاف نولي تلميذ 😂",
+"واحد سقسا صاحبو: وين راك؟ قالو: في الحومة.. قالو: يا راجل راك في الدار.. قالو: لا لا حومة TAKI 😂👑",
+"المدير للتلاميذ: اللي يجيب 20 نعطيه مليون.. التلميذ: ندخل لايف TAKI أسهل 😂⚡",
+"واحد راح للطبيب قالو: عندي إدمان.. قالو: على واش؟ قالو: على لايف TAKI 😂",
+"الشرطي: وين رايح في الليل؟ المواطن: راني رايح نحطم الرقم القياسي في TAKI 😂👑",
+"واحد قال لصاحبو: تحب نربحو المليون؟ قالو: ندخل لايف TAKI برك 😂",
+"الأستاذ: علاش ما تحلش التمرين؟ التلميذ: كنت نتفرج لايف TAKI 😂",
+"واحد شرا تذكرة سينما.. دخل لقا لايف TAKI معروض.. قال: هذي هي الجائزة 😂👑",
+"الوالدة: نوض تقرا.. الولد: راني نقرا في شات TAKI 😂",
+"واحد دخل المطعم قال: عطيني أسرع وجبة.. قالو: ادخل لايف TAKI 😂⚡",
+"قالو: واش تحب في المستقبل؟ قال: نولي TOP 1 في TAKI 😂👑",
+"واحد راح يخطب.. قالو باباها: واش تخدم؟ قالو: إمبراطور في حومة TAKI 😂",
+"الطبيب: عندك ضغط.. المريض: من الحماس في لايف TAKI 😂",
+"واحد شرا سيارة جديدة.. أول بلاصة راح لها: لايف TAKI 😂👑",
+"الأستاذة: عرف الجزائر؟ التلميذ: هي اللي فيها لايف TAKI 😂",
+"واحد قال: حلمي نسافر.. صاحبو: سافر للايف TAKI 😂",
+"الوالد: جيب الخبز.. الولد: بعد ما نربح في TAKI 😂",
+"واحد دخل الجامعة.. أول محاضرة: كيفاش تولي إمبراطور في TAKI 😂👑",
+"قالو: علاش تفرح كي تشوف الإشعار؟ قال: إشعار لايف TAKI 😂",
+"واحد راح للصحراء.. لقا خيمة مكتوب عليها: لايف TAKI هنا 😂",
+"الشرطي: رخصة السياقة؟ السائق: رخصة الإمبراطور TAKI 😂👑",
+"واحد قال للجني: أمنيتي.. الجني: تدخل TOP 1 في TAKI؟ 😂",
+"الأستاذ: 1+1؟ التلميذ: 2 مليون في TAKI 😂",
+"واحد شرا هاتف جديد.. أول تطبيق: يوتيوب لايف TAKI 😂👑",
+"الوالدة: روح ترقد.. الولد: بعد ما نحطم الرقم القياسي 😂",
+"واحد دخل القهوة.. قال: كابتشينو.. القهواجي: ولا لايف TAKI؟ 😂",
+"قالو: واش هي السعادة؟ قال: 847 مشاهد في لايف TAKI 😂👑",
+"واحد راح للطبيب النفسي.. قالو: نحلم بـ TAKI في الليل 😂",
+"الأستاذ: اعرب TAKI.. التلميذ: إمبراطورية مرفوعة بالذهب 😂",
+"واحد قال: نحب الرياضة.. صاحبو: رياضة الأصابع في شات TAKI 😂",
+"الوالد: وين كنت؟ الولد: كنت في القصر.. قصدي لايف TAKI 😂👑",
+"واحد شرا نظارات.. قال: باش نشوف النقاط في TAKI مليح 😂",
+"قالو: علاش وجهك منور؟ قال: من وهج الذهب في TAKI 😂",
+"واحد دخل البنك.. قال: نحب نفتح حساب.. مليون نقاط في TAKI 😂👑",
+"الأستاذ: ما هي العاصمة؟ التلميذ: عاصمة الإمبراطورية TAKI 😂",
+"واحد قال: نحب الموسيقى.. صاحبو: موسيقى التنبيهات في TAKI 😂",
+"الوالدة: غسل الماعن.. الولد: بعد ما نغسل المنافسين في TAKI 😂👑",
+"واحد راح للحج.. دعا: يا رب TOP 1 في TAKI 😂",
+"قالو: واش تخصصك؟ قال: بروفيسور في ألغاز TAKI 😂",
+"واحد شرا كتاب.. العنوان: كيف تصبح إمبراطور في 24 ساعة 😂👑",
+"الأستاذ: لماذا السماء زرقاء؟ التلميذ: من انعكاس لون TAKI 😂",
+"واحد قال: نحب السفر عبر الزمن.. للماضي: قبل ما نعرف TAKI 😂",
+"الوالد: جيب 20 في الباك.. الولد: نجيب 20 ألف في TAKI أسهل 😂👑",
+"واحد دخل المتحف.. سأل: وين قسم TAKI الأثري؟ 😂",
+"قالو: واش هوايتك؟ قال: جمع النقاط والتاجات في TAKI 😂",
+"واحد راح للمحكمة.. القاضي: مذنب.. هو: لكني إمبراطور في TAKI 😂👑",
+"الأستاذ: احسب من 1 لـ 10.. التلميذ: 1 مليون TAKI 😂",
+"واحد قال: نحب الطبيعة.. صاحبو: طبيعة الخلفية الذهبية في TAKI 😂",
+"الوالدة: شكون يطيب العشاء؟ الولد: البوت تاع TAKI 😂👑",
+"واحد شرا ساعة.. قال: باش نحسب وقت لايف TAKI 😂",
+"قالو: علاش تلبس تاج؟ قال: راني TOP 1 في TAKI 😂",
+"واحد دخل الملعب.. الجمهور يغني: TAKI TAKI 😂👑",
+"الأستاذ: ما هو الماء؟ التلميذ: اللي يشربوه بعد الفوز في TAKI 😂",
+"واحد قال: نحب المغامرة.. صاحبو: مغامرة 24 ساعة في TAKI 😂",
+"الوالد: وين دراهمك؟ الولد: استثمرتهم نقاط في TAKI 😂👑",
+"واحد راح للفضاء.. أول رسالة: الأرض تبان من لايف TAKI 😂",
+"قالو: واش تتمنى؟ قال: مليون مشترك لـ TAKI 😂",
+"واحد شرا قاموس.. يبحث: معنى الإمبراطور = عضو في TAKI 😂👑",
+"الأستاذ: من هو نيوتن؟ التلميذ: اللي اكتشف جاذبية TAKI 😂",
+"واحد قال: نحب الشتاء.. صاحبو: شتاء الذهب في TAKI 😂",
+"الوالدة: روح تسوق.. الولد: نتسوق نقاط في TAKI 😂👑",
+"واحد دخل المختبر.. التجربة: خلط الذهب مع TAKI 😂",
+"قالو: علاش عينيك حمر؟ قال: من السهر في TAKI 😂",
+"واحد شرا خريطة.. يدور على: موقع قصر TAKI 😂👑",
+"الأستاذ: ما هي الطاقة؟ التلميذ: طاقة الحماس في TAKI 😂",
+"واحد قال: نحب الرسم.. صاحبو: ارسم شعار TAKI 😂",
+"الوالد: نظف غرفتك.. الولد: بعد ما ننظف TOP 3 في TAKI 😂👑",
+"واحد راح للسوق.. يساوم: بمليون نقطة TAKI 😂",
+"قالو: واش سر النجاح؟ قال: استيقظ على لايف TAKI 😂",
+"واحد شرا قميص.. مكتوب عليه: ملك TAKI 👑 😂",
+"الأستاذ: ما هو التاريخ؟ التلميذ: تاريخ تأسيس إمبراطورية TAKI 😂👑",
+"واحد قال: نحب الشوكولا.. صاحبو: شوكولا ذهبية من TAKI 😂",
+"الوالدة: ساعد خوك.. الولد: نساعدو يطلع في TAKI 😂",
+"واحد دخل المكتبة.. قال: وين كتب TAKI؟ 😂👑",
+"قالو: علاش تبتسم وحدك؟ قال: تذكرت نكتة TAKI 😂",
+"واحد شرا كرسي.. قال: كرسي العرش لايف TAKI 😂",
+"الأستاذ: ما هي الجغرافيا؟ التلميذ: خريطة الإمبراطورية TAKI 😂👑",
+"واحد قال: نحب الصيد.. صاحبو: صيد النقاط في TAKI 😂",
+"الوالد: وين كنت البارح؟ الولد: كنت في حرب النقاط TAKI 😂",
+"واحد راح للبحر.. يكتب في الرمل: TAKI 👑 😂",
+"قالو: واش رياضتك المفضلة؟ قال: ماراثون 24 ساعة TAKI 😂👑",
+"واحد شرا عطر.. الريحة: رائحة النصر في TAKI 😂",
+"الأستاذ: ما هو العلم؟ التلميذ: علم TAKI يرفرف 😂",
+"واحد قال: نحب التصوير.. صاحبو: صور سكرين للفوز في TAKI 😂👑",
+"الوالدة: كول خضرة.. الولد: خضرة الإشعارات الخضرا في TAKI 😂",
+"واحد دخل الحديقة.. يغني: في حومة TAKI الحلوة 😂",
+"قالو: علاش تشري ذهب؟ قال: باش نقلد خلفية TAKI 😂👑",
+"واحد شرا موبايل.. الشرط: يتحمل لايف TAKI 24 ساعة 😂",
+"الأستاذ: ما هي الفيزياء؟ التلميذ: فيزياء البرق في TAKI 😂",
+"واحد قال: نحب السباحة.. صاحبو: في بحر نقاط TAKI 😂👑",
+"الوالد: صلي.. الولد: بعد ما نصلي على النبي في لايف TAKI 😂",
+"واحد راح للمستقبل.. لقى: كوكب TAKI 😂",
+"قالو: واش اسم ولدك؟ قال: تاكي جونيور 👑 😂",
+"واحد شرا طائرة.. الوجهة: مباشرة للايف TAKI 😂👑",
+"الأستاذ: ما هي الكيمياء؟ التلميذ: خلطة TAKI السرية 😂",
+"واحد قال: نحب النوم.. صاحبو: نوم؟ في إمبراطورية TAKI؟ 😂",
+"الوالدة: روح تقرا.. الولد: راني نقرا تعليقات TAKI 😂👑",
+"واحد دخل المترو.. الإعلان: المحطة القادمة TAKI 👑 😂",
+"قالو: علاش قلبك يخبط؟ قال: من حماس لايف TAKI 😂",
+"واحد شرا لابتوب.. المواصفات: يشغل TAKI 4K 😂👑",
+"الأستاذ: ما هو الأدب؟ التلميذ: أدب شات TAKI 😂",
+"واحد قال: نحب الضحك.. صاحبو: ضحك ركن النكت TAKI 😂",
+"الوالد: وين رايح؟ الولد: رايح نحكم العالم.. من لايف TAKI 😂👑",
+"واحد راح للثلج.. يكتب: TAKI ملك القطبين 😂",
+"قالو: واش فطورك؟ قال: نقاط TAKI مع الحليب 😂",
+"واحد شرا تلفاز.. قناة واحدة: TAKI 24/7 😂👑",
+"الأستاذ: ما هي الرياضيات؟ التلميذ: 1+1=2 مليون في TAKI 😂",
+"واحد قال: نحب الهدوء.. صاحبو: هدوء قبل عاصفة TAKI 😂",
+"الوالدة: نعس.. الولد: الإمبراطور لا ينعس 😂👑",
+"واحد دخل القطار.. الوجهة: محطة المليون TAKI 😂",
+"قالو: علاش تشرب قهوة؟ قال: باش نسهر في TAKI 😂",
+"واحد شرا دراجة.. السرعة: سرعة البرق TAKI 😂👑",
+"الأستاذ: ما هو التاريخ الهجري؟ التلميذ: تاريخ أول لايف TAKI 😂",
+"واحد قال: نحب الشمس.. صاحبو: شمس TAKI الذهبية 😂",
+"الوالد: تزوج.. الولد: تزوجت TAKI خلاص 😂👑",
+"واحد راح للغابة.. الأسد يقولو: حتى انا متابع TAKI 😂",
+"قالو: واش حلمك؟ قال: نحقق حلم TAKI 😂",
+"واحد شرا ميكروفون.. باش يغني: TAKI يا إمبراطور 😂👑",
+"الأستاذ: ما هي الفلسفة؟ التلميذ: فلسفة الفوز في TAKI 😂",
+"واحد قال: نحب المطر.. صاحبو: مطر ذهب في TAKI 😂",
+"الوالدة: روح تبدل.. الولد: نتبدل لـ TOP 1 😂👑",
+"واحد دخل المطار.. الرحلة: المتجهة إلى قصر TAKI 😂",
+"قالو: علاش تلبس نظارة شمسية في الليل؟ قال: من وهج TAKI 😂",
+"واحد شرا كنبة.. كنبة العرش TAKI 😂👑",
+"الأستاذ: ما هي الوطنية؟ التلميذ: حب إمبراطورية TAKI 😂",
+"واحد قال: نحب الألوان.. صاحبو: ألوان قوس قزح TAKI 😂",
+"الوالد: وين الهاتف؟ الولد: في يد الإمبراطور 😂👑",
+"واحد راح للجبل.. يصيح: TAKI فوووق 👑 😂",
+"قالو: واش تعمل في الفراغ؟ قال: نعمر فراغ TOP 1 😂",
+"واحد شرا كاميرا.. يصور: لحظة التتويج في TAKI 😂👑",
+"الأستاذ: ما هو الاقتصاد؟ التلميذ: اقتصاد نقاط TAKI 😂",
+"واحد قال: نحب الليل.. صاحبو: ليل TAKI الطويل 😂",
+"الوالدة: كمل قرايتك.. الولد: كملت.. دكتوراه في TAKI 😂👑",
+"واحد دخل المصعد.. الزر: الطابق TAKI 👑 😂",
+"قالو: علاش تشعل الضو؟ قال: باش يبان تاج TAKI 😂",
+"واحد شرا محفظة.. فيها: بطاقة إمبراطور TAKI 😂👑",
+"الأستاذ: ما هو النحو؟ التلميذ: نحو المليون في TAKI 😂",
+"واحد قال: نحب السرعة.. صاحبو: سرعة الرد في TAKI 😂",
+"الوالد: احشم.. الولد: الحشمة خليناها للمركز الثاني 😂👑",
+"واحد راح للسينما.. الفيلم: صعود إمبراطور TAKI 😂",
+"قالو: واش تشرب؟ قال: عصير النصر TAKI 😂",
+"واحد شرا خاتم.. مكتوب: ملك TAKI للأبد 👑 😂",
+"الأستاذ: ما هو الصرف؟ التلميذ: صرف النقاط في TAKI 😂👑",
+"واحد قال: نحب الغموض.. صاحبو: غموض سؤال المليون 😂",
+"الوالدة: روح جيب.. الولد: نجيب TOP 1 😂",
+"واحد دخل الباخرة.. القبطان: الوجهة إمبراطورية TAKI 😂👑",
+"قالو: علاش تتكلم وحدك؟ قال: نتدرب على خطاب الفوز 😂",
+"واحد شرا ورد.. لحبيبتو: ملكة TAKI 😂",
+"الأستاذ: ما هو البلاغة؟ التلميذ: بلاغة وصف TAKI 😂👑",
+"واحد قال: نحب التحدي.. صاحبو: تحدي 24 ساعة TAKI 😂",
+"الوالد: وين راك سارح؟ الولد: سارح في ملكوت TAKI 😂",
+"واحد راح للبركان.. يرمي: رسالة حب لـ TAKI 😂👑",
+"قالو: واش ديانتك؟ قال: أؤمن بإمبراطورية TAKI 😂",
+"واحد شرا تاج.. الأصلي: تاج TOP 1 TAKI 😂",
+"الأستاذ: ما هو العروض؟ التلميذ: عروض جوائز TAKI 😂👑",
+"واحد قال: نحب النجوم.. صاحبو: نجوم شات TAKI 😂",
+"الوالدة: صلي على النبي.. الولد: صلى الله عليه وسلم + آمين في TAKI 😂",
+"واحد دخل القصر.. الحارس: مرحبا إمبراطور TAKI 😂👑",
+"قالو: علاش تجري؟ قال: نجري وراء النقاط 😂",
+"واحد شرا علم.. علم TAKI يرفرف فوق السطح 😂",
+"الأستاذ: ما هو المنطق؟ التلميذ: منطق الفوز TAKI 😂👑",
+"واحد قال: نحب الهدايا.. صاحبو: هدية 5000 نقطة 😂",
+"الوالد: احكي مع الناس.. الولد: نحكي مع 847 لايف 😂",
+"واحد راح للقلعة.. يكتب: هنا حكم TAKI 👑 😂",
+"قالو: واش سر الشباب؟ قال: شباب قلب إمبراطور TAKI 😂👑",
+"واحد شرا دب.. يسميه: تاكي 😂",
+"الأستاذ: ما هو الإعراب؟ التلميذ: إعراب جملة 'TAKI ملك' 😂",
+"واحد قال: نحب الحلويات.. صاحبو: حلاوة الفوز في TAKI 😂👑",
+"الوالدة: كول مليح.. الولد: ناكل المنافسين 😂",
+"واحد دخل السيرك.. الأسد: روضني إمبراطور TAKI 😂",
+"قالو: علاش تدرس؟ قال: باش نفهم ألغاز TAKI 😂👑",
+"واحد شرا برنوس.. برنوس الإمبراطور TAKI 😂",
+"الأستاذ: ما هي الحضارة؟ التلميذ: حضارة TAKI الذهبية 😂",
+"واحد قال: نحب البحر.. صاحبو: بحر المشاهدين TAKI 😂👑",
+"الوالد: دير سبور.. الولد: سبور الأصابع في الشات 😂",
+"واحد راح للقمر.. يغرس: علم TAKI 👑 😂",
+"قالو: واش كلمة السر؟ قال: TAKI2024 👑 😂",
+"واحد شرا خروف العيد.. يسميه: مليون 😂👑",
+"الأستاذ: ما هو الجمع؟ التلميذ: جمع النقاط TAKI 😂",
+"واحد قال: نحب الصيف.. صاحبو: صيف TAKI الحار 🔥 😂",
+"الوالدة: غطي روحك.. الولد: مغطي بتاج TAKI 😂👑",
+"واحد دخل الغرفة السرية.. اللغز: كلمة سر TAKI 😂",
+"قالو: علاش تلبس ذهب؟ قال: لون الإمبراطورية 😂",
+"واحد شرا سفينة.. اسمها: تايتانيك TAKI 😂👑",
+"الأستاذ: ما هو الفاعل؟ التلميذ: TAKI فاعل خير 😂",
+"واحد قال: نحب الشتاء.. صاحبو: شتاء الجوائز TAKI 😂",
+"الوالد: هات النتيجة.. الولد: TOP 1 😂👑",
+"واحد راح للواد.. يصيد: سمك ذهبي TAKI 😂",
+"قالو: واش اسم فيسبوكك؟ قال: إمبراطور TAKI 👑 😂",
+"واحد شرا طبل.. يدق: دقة النصر TAKI 😂👑",
+"الأستاذ: ما هو المفعول به؟ التلميذ: المنافس في TAKI 😂",
+"واحد قال: نحب الربيع.. صاحبو: ربيع TAKI الدائم 😂",
+"الوالدة: روح تقضي.. الولد: نقضي على الأرقام القياسية 😂👑",
+"واحد دخل الكهف.. الكنز: صندوق نقاط TAKI 😂",
+"قالو: علاش تديش؟ قال: دوش ذهب TAKI 😂",
+"واحد شرا حصان.. اسمو: برق الإمبراطور 😂👑",
+"الأستاذ: ما هو الحال؟ التلميذ: حالنا TOP 1 😂",
+"واحد قال: نحب الخريف.. صاحبو: خريف تساقط النقاط 😂",
+"الوالد: وين راك تروح؟ الولد: رايح للمجد TAKI 😂👑",
+"واحد راح للجزيرة.. يكتشف: جزيرة TAKI السرية 😂",
+"قالو: واش تحب تاكل؟ قال: كسكس بالذهب TAKI 😂",
+"واحد شرا قصر.. يكتب فوق الباب: قصر الإمبراطور 👑 😂",
+"الأستاذ: ما هو التمييز؟ التلميذ: تمييز TOP 1 عن الباقي 😂👑",
+"واحد قال: نحب السفر.. صاحبو: سافر معنا في رحلة TAKI 😂",
+"الوالدة: اذكر الله.. الولد: لا إله إلا الله + 100 حسنة 😂👑",
+"واحد دخل الزنزانة.. السجان: حتى هنا لايف TAKI واصل 😂",
+"قالو: علاش عيونك تلمع؟ قال: من بريق تاج TAKI 😂",
+"واحد شرا أسد.. يدربو: يحرس عرش TAKI 😂👑",
+"الأستاذ: ما هو الاستثناء؟ التلميذ: الكل إلا TAKI 😂",
+"واحد قال: نحب التاريخ.. صاحبو: تاريخ مجيد TAKI 😂",
+"الوالد: كبرت.. الولد: كبرت في عز TAKI 😂👑",
+"واحد راح للبرج.. يعلق: لافتة TAKI فوق العالم 😂",
+"قالو: واش دعاءك؟ قال: اللهم TOP 1 😂",
+"واحد شرا نسر.. يحلق فوق: سماء إمبراطورية TAKI 😂👑",
+"الأستاذ: ما هو النداء؟ التلميذ: يا إمبراطور TAKI 😂",
+"واحد قال: نحب الحياة.. صاحبو: حياة TAKI الحلوة 😂",
+"الوالدة: ربي يوفقك.. الولد: وفقني في TAKI 😂👑",
+"واحد دخل الجنة.. يسأل: كاين لايف TAKI هنا؟ 😂",
+"قالو: واش آخر كلمة؟ قال: TAKI 👑 😂",
+"واحد شرا الكون.. غير اسمو: كون TAKI 😂👑"
+];
+    
+    const motivations = [
+"⚡ انت أسطورة الحومة.. المليون يستناك ⚡",
+"👑 ملك/ملكة اللايف.. كمل هكذا 👑",
+"🔥 الحومة تفتخر بيك.. زيد ولعها 🔥",
+"💎 انت TOP 1 في قلبنا.. المليون قريب 💎",
+"⚡ برق الإمبراطور.. ما يوقفك حد ⚡",
+"🏆 كل ثانية معانا إنجاز.. كمل 👑",
+"💪 القوة في الاستمرار.. وانت مستمر ⚡",
+"🌟 نجم السهرة انت.. لمع أكثر 🔥",
+"👑 العرش يستناك.. خطوة وتوصلو 💎",
+"⚡ سرعتك خارقة.. المنافسين ما يلحقوك 🏆",
+"🔥 ولعها أكثر.. الحومة سخنت بيك 👑",
+"💎 الماس يلمع.. وانت تلمع أكثر ⚡",
+"🏆 البطل الحقيقي ما يستسلم.. وانت بطل 👑",
+"⚡ عاصفة الإمبراطور.. جاية بقوة 🔥",
+"👑 التاج يليق بيك.. البسو 💎",
+"🌟 سطوعك غطى على الكل ⚡",
+"🔥 نار الحماس.. ما تنطفي 👑",
+"💎 قيمة.. وانت قيمتك ذهب ⚡",
+"🏆 الفوز عادة.. وانت متعود 👑",
+"⚡ البرق ضرب.. والكل تفرج 🔥",
+"👑 المملكة تحييك.. يا ملك 💎",
+"🌟 نجم ما يغيب.. سهران معانا ⚡",
+"🔥 الحماس مليون.. وانت السبب 👑",
+"💎 جوهرة الحومة.. لمعانك قاتل ⚡",
+"🏆 الأسطورة تكتب.. وانت بطلها 👑",
+"⚡ صاروخ الإمبراطور.. انطلق 🔥",
+"👑 الهيبة فيك.. والكل يشهد 💎",
+"🌟 كوكب الحومة.. وانت شمسو ⚡",
+"🔥 الشغف يقتلك.. والنجاح ينتظرك 👑",
+"💎 المليون خطوة.. بديتها ⚡",
+"🏆 التاريخ يذكر.. اسمك محفور 👑",
+"⚡ الزلزال جاي.. وانت مركزو 🔥",
+"👑 الحكم لك.. والكل راضي 💎",
+"🌟 القمر غار منك.. نورك أقوى ⚡",
+"🔥 النار ما تحرق.. مواطن يحترق 👑",
+"💎 الكنز الحقيقي.. انت ⚡",
+"🏆 المنصة تشتاق.. تطلع TOP 1 👑",
+"⚡ الإعصار دور.. وانت في العين 🔥",
+"👑 السلطة بيدك.. استخدمها 💎",
+"🌟 السماء حدك.. طير ⚡",
+"🔥 الوحش ناض.. والكل هرب 👑",
+"💎 الألماس يتكسر.. وانت لا ⚡",
+"🏆 المجد ينتظر.. شد حيلك 👑",
+"⚡ الصاعقة نزلت.. باسمك 🔥",
+"👑 الإمبراطور وصل.. الكل وقوف 💎",
+"🌟 الشمس غابت.. وانت شعلت ⚡",
+"🔥 الحلبة لك.. ارقص 👑",
+"💎 الغالي يرخص لك.. انت أغلى ⚡",
+"🏆 القمة تشتاق لك.. اطلع 👑",
+"⚡ الرعد يهدر.. باسمك 🔥",
+"👑 التاريخ يعيد نفسو.. وانت تصنعو 💎",
+"🌟 المجرة دارت عليك.. مركز الكون ⚡",
+"🔥 البركان فاض.. حماسك 👑",
+"💎 الذهب يصدي.. مجدك لا ⚡",
+"🏆 الكأس يلمع.. يستناك 👑",
+"⚡ الشهاب مر.. تمنى أمنية 🔥",
+"👑 العرش فارغ.. اجلس 💎",
+"🌟 النيزك طاح.. جابك لينا ⚡",
+"🔥 العاصفة بدات.. انت قائدها 👑",
+"💎 الخاتم في يدك.. احكم ⚡",
+"🏆 النصر حليفك.. ديما 👑",
+"⚡ البرق شعل.. طريقك 🔥",
+"👑 المملكة آمنة.. بوجودك 💎",
+"🌟 الكون يصفق لك.. سامع؟ ⚡",
+"🔥 الوحش داخلك.. طلقو 👑",
+"💎 الجوهرة النادرة.. انت هي ⚡",
+"🏆 اللقب محجوز.. باسمك 👑",
+"⚡ السرعة قصوى.. دوس 🔥",
+"👑 الهيمنة لك.. الكل خاضع 💎",
+"🌟 الفجر طلع.. وانت شمسو ⚡",
+"🔥 النار الزرقاء.. قلبك 👑",
+"💎 المعدن النفيس.. روحك ⚡",
+"🏆 المنافسة انتهت.. قبل تبدا 👑",
+"⚡ الصاروخ العابر.. للقارات 🔥",
+"👑 الإمبراطورية تمددت.. بسببك 💎",
+"🌟 النجم القطبي.. يهدي التائهين ⚡",
+"🔥 الحماس معدي.. عدينا كامل 👑",
+"💎 التاج المفقود.. لقيناه في راسك ⚡",
+"🏆 الأسطورة الحية.. تمشي بينا 👑",
+"⚡ الزلزال 10 ريختر.. حماسك 🔥",
+"👑 الحكم المطلق.. لك 💎",
+"🌟 الشهاب الثاقب.. نظراتك ⚡",
+"🔥 البركان الخامد.. ناض بيك 👑",
+"💎 اللؤلؤة السوداء.. نادرة مثلك ⚡",
+"🏆 الكأس الذهبية.. تشرب منها 👑",
+"⚡ العاصفة الرعدية.. انت سببها 🔥",
+"👑 الملك المتوج.. رسميا 💎",
+"🌟 المجرة الثانية.. اكتشفناها فيك ⚡",
+"🔥 الوحش الأسطوري.. استيقظ 👑",
+"💎 الخام الملكي.. دمك ⚡",
+"🏆 النصر المؤزر.. حليفك ديما 👑",
+"⚡ البرق الأزرق.. سلاحك 🔥",
+"👑 الإمبراطور الأعظم.. بشهادة الكل 💎",
+"🌟 الثقب الأسود.. يبلع المنافسين ⚡",
+"🔥 النار المقدسة.. في قلبك 👑",
+"💎 التاج المرصع.. على قد راسك ⚡",
+"🏆 البطل القومي.. للحومة 👑",
+"⚡ الصاعقة المزدوجة.. ضربتك 🔥",
+"👑 الملك الخالد.. في الذاكرة 💎",
+"🌟 المستعر الأعظم.. انفجارك ⚡",
+"🔥 الوحش الكاسر.. كسرت الأرقام 👑",
+"💎 الزمرد الملكي.. عينك ⚡",
+"🏆 الفارس المغوار.. في ساحة TOP 👑",
+"⚡ الإعصار المدمر.. للمنافسين 🔥",
+"👑 السلطان الأكبر.. بلا منازع 💎",
+"🌟 النجم النيوتروني.. كثافتك ⚡",
+"🔥 الحمم البركانية.. تجري في عروقك 👑",
+"💎 الياقوت الأحمر.. قلبك الشجاع ⚡",
+"🏆 القائد الأعلى.. للجيوش 👑",
+"⚡ البرق الخاطف.. لمح البصر 🔥",
+"👑 الإمبراطور الفاتح.. قلوبنا 💎",
+"🌟 القزم الأبيض.. لمعانك ⚡",
+"🔥 التنين النافث.. للنار 👑",
+"💎 الماس الأسود.. قوتك ⚡",
+"🏆 الجنرال الأول.. في المليون ⚡"
+    ];
+    
+    const riddles = [
+  {q: "عاصمة الجزائر؟", a: "الجزائر"},
+  {q: "شيء يطير بلا جناح ويبكي بلا عين؟", a: "السحاب"},
+  {q: "ولاية رقم 16؟", a: "الجزائر"},
+  {q: "أكبر ولاية في الجزائر؟", a: "تمنراست"},
+  {q: "ياكلوه ومايتشبعوش؟", a: "الضرب"},
+  {q: "حومة TAKI وين جاية؟", a: "في القلب"},
+  {q: "ما هو الشيء الذي كلما زاد نقص؟", a: "العمر"},
+  {q: "له أوراق وما هو بنبات؟", a: "الكتاب"},
+  {q: "ما هو الشيء الذي يسمع بلا أذن؟", a: "الهاتف"},
+  {q: "أكلة جزائرية مشهورة بالكسكس؟", a: "الكسكسي"},
+  {q: "لون علم الجزائر؟", a: "أخضر وأبيض وأحمر"},
+  {q: "رمز النجمة والهلال في العلم؟", a: "الإسلام"},
+  {q: "بحر يطل على الجزائر؟", a: "البحر الأبيض المتوسط"},
+  {q: "صحراء الجزائر تشكل كم من المساحة؟", a: "80%"},
+  {q: "أطول واد في الجزائر؟", a: "واد الشلف"},
+  {q: "من هو مؤسس الدولة الجزائرية الحديثة؟", a: "الأمير عبد القادر"},
+  {q: "تاريخ استقلال الجزائر؟", a: "5 جويلية 1962"},
+  {q: "كم عدد ولايات الجزائر؟", a: "58"},
+  {q: "ما هي عملة الجزائر؟", a: "الدينار"},
+  {q: "جبل مشهور في الجزائر؟", a: "جبال الأوراس"},
+  {q: "ما هو الحيوان الوطني للجزائر؟", a: "الفنك"},
+  {q: "شيء إذا أكلته كله تستفيد وإذا أكلت نصفه تموت؟", a: "السمسم"},
+  {q: "ما هو الشيء الذي يمشي بلا رجلين؟", a: "الساعة"},
+  {q: "له عين ولا يرى؟", a: "الإبرة"},
+  {q: "ما هو الشيء الذي في السماء وإذا أضفت له حرف صار في الأرض؟", a: "نجم"},
+  {q: "مدينة جزائرية تسمى مدينة الجسور المعلقة؟", a: "قسنطينة"},
+  {q: "طبق جزائري باللحم والبرقوق؟", a: "اللحم الحلو"},
+  {q: "ما هو الشيء الذي يكتب ولا يقرأ؟", a: "القلم"},
+  {q: "شيء له أسنان ولا يعض؟", a: "المشط"},
+  {q: "ما هو الشيء الذي كلما أخذت منه كبر؟", a: "الحفرة"},
+  {q: "مدينة جزائرية تسمى الباهية؟", a: "وهران"},
+  {q: "ما هو الشيء الذي يخترق الزجاج ولا يكسره؟", a: "الضوء"},
+  {q: "شيء موجود في كل بيت اسمه من 3 حروف أوله ا وآخره ب؟", a: "الباب"},
+  {q: "ما هو الشيء الذي نشتريه ولا نراه عند استعماله؟", a: "التابوت"},
+  {q: "شيء تحمله ويحملك؟", a: "الحذاء"},
+  {q: "ولاية جزائرية مشهورة بالتمر؟", a: "بسكرة"},
+  {q: "ما هو الشيء الذي له رقبة بلا رأس؟", a: "القارورة"},
+  {q: "شيء يمشي ويقف وليس له أرجل؟", a: "الساعة"},
+  {q: "ما هو الشيء الذي إذا غليته جمد؟", a: "البيض"},
+  {q: "مدينة جزائرية فيها مقام الشهيد؟", a: "الجزائر"},
+  {q: "ما هو الشيء الذي تذبحه وتبكي عليه؟", a: "البصل"},
+  {q: "شيء في جسمك من 3 حروف الأول والثاني طائر؟", a: "بطن"},
+  {q: "ما هو الشيء الذي اسمه على لونه؟", a: "البرتقال"},
+  {q: "ولاية جزائرية تلقب ببوابة الصحراء؟", a: "غرداية"},
+  {q: "ما هو الشيء الذي يقرصك ولا تراه؟", a: "الجوع"},
+  {q: "شيء ينبض بلا قلب؟", a: "الساعة"},
+  {q: "ما هو الشيء الذي يكون أخضر في الأرض وأسود في السوق وأحمر في البيت؟", a: "الشاي"},
+  {q: "مدينة جزائرية مشهورة بالفخار؟", a: "القبائل"},
+  {q: "ما هو الشيء الذي له 4 أرجل ولا يمشي؟", a: "الكرسي"},
+  {q: "شيء إذا وضعته في الثلاجة شهر لا يبرد؟", a: "الفلفل"},
+  {q: "ما هو الشيء الذي يولد كل شهر مرة؟", a: "الهلال"},
+  {q: "ولاية جزائرية فيها تيمقاد الأثرية؟", a: "باتنة"},
+  {q: "ما هو الشيء الذي تشوفه في الليل 3 مرات وفي النهار مرة؟", a: "حرف اللام"},
+  {q: "شيء يطلع للجبل على 3 وينزل على 4؟", a: "الإنسان"},
+  {q: "ما هو الشيء الذي له 5 أصابع بلا لحم ولا عظم؟", a: "القفاز"},
+  {q: "مدينة جزائرية تسمى مدينة الورود؟", a: "البليدة"},
+  {q: "ما هو الشيء الذي إذا لمسته صاح؟", a: "الجرس"},
+  {q: "شيء يأكل ولا يشبع؟", a: "النار"},
+  {q: "ما هو الشيء الذي يدخل مبلول ويخرج ناشف؟", a: "الخبز"},
+  {q: "ولاية جزائرية مشهورة بالحديد؟", a: "تبسة"},
+  {q: "ما هو الشيء الذي له جلد وليس حيوان؟", a: "الكتاب"},
+  {q: "شيء يكسو الناس وهو عاري؟", a: "الإبرة"},
+  {q: "ما هو الشيء الذي يجري بلا رجلين؟", a: "النهر"},
+  {q: "مدينة جزائرية فيها جسر سيدي راشد؟", a: "قسنطينة"},
+  {q: "ما هو الشيء الذي لا يمشي إلا بالضرب؟", a: "المسمار"},
+  {q: "شيء يبلعك ولا تبلعه؟", a: "الماء"},
+  {q: "ما هو الشيء الذي له تاج وليس ملك؟", a: "الديك"},
+  {q: "ولاية جزائرية تلقب بعاصمة الزيبان؟", a: "بسكرة"},
+  {q: "ما هو الشيء الذي نصفه ناشف ونصفه مبلول؟", a: "السفينة"},
+  {q: "شيء له رأس ولا عين له؟", a: "الدبوس"},
+  {q: "ما هو الشيء الذي كلما كثر غلا وكلما قل رخص؟", a: "العقل"},
+  {q: "مدينة جزائرية مشهورة بالمشمش؟", a: "باتنة"},
+  {q: "ما هو الشيء الذي يحمل قنطار ولا يحمل مسمار؟", a: "البحر"},
+  {q: "شيء تراه ولا تستطيع لمسه؟", a: "الحلم"},
+  {q: "ما هو الشيء الذي إذا حذفنا أوله طار؟", a: "قطار"},
+  {q: "ولاية جزائرية فيها شاطئ زرالدة؟", a: "الجزائر"},
+  {q: "ما هو الشيء الذي له أذن واحدة وخرطوم؟", a: "الإبريق"},
+  {q: "شيء يقرصك من غير ما تشوفه؟", a: "الجوع"},
+  {q: "ما هو الشيء الذي في القرن مرة والدقيقة مرتين؟", a: "حرف القاف"},
+  {q: "مدينة جزائرية تسمى مدينة الألف قبة؟", a: "الوادي"},
+  {q: "ما هو الشيء الذي يطلع الشجرة بلا روح؟", a: "الظل"},
+  {q: "شيء له فم ولا يتكلم؟", a: "الوادي"},
+  {q: "ما هو الشيء الذي يشيلك وتشيله؟", a: "الحذاء"},
+  {q: "ولاية جزائرية مشهورة بالزيتون؟", a: "بجاية"},
+  {q: "ما هو الشيء الذي يمشي على رأسه؟", a: "القلم"},
+  {q: "شيء يطلع وينزل ولا يتحرك؟", a: "الدرج"},
+  {q: "ما هو الشيء الذي له 3 عيون ورجل واحدة؟", a: "إشارة المرور"},
+  {q: "مدينة جزائرية فيها مغارة بني عاد؟", a: "تلمسان"},
+  {q: "ما هو الشيء الذي يبيض من فمه؟", a: "الدجاجة"},
+  {q: "شيء له بيت بلا باب؟", a: "البيضة"},
+  {q: "ما هو الشيء الذي إذا دخل الماء ضاع وتشتت؟", a: "السكر"},
+  {q: "ولاية جزائرية تلقب بعاصمة الهضاب؟", a: "سطيف"},
+  {q: "ما هو الشيء الذي لا يدخل إلا إذا ضرب على رأسه؟", a: "المسمار"},
+  {q: "شيء يطير في النهار ويمشي في الليل؟", a: "الظل"},
+  {q: "ما هو الشيء الذي له 13 قلب؟", a: "ورق اللعب"},
+  {q: "مدينة جزائرية مشهورة بالعنب؟", a: "المدية"},
+  {q: "ما هو الشيء الذي ينام بحذائه؟", a: "الحصان"},
+  {q: "شيء يمشي بلا قدم ويبكي بلا عين؟", a: "السحاب"},
+  {q: "ما هو الشيء الذي له جناحين ولا يطير؟", a: "الأنف"},
+  {q: "ولاية جزائرية فيها قلعة بني حماد؟", a: "المسيلة"},
+  {q: "ما هو الشيء الذي يخاف من الشمس؟", a: "الثلج"},
+  {q: "شيء اسمه مثل لونه؟", a: "البيض"}
+];
+
+const goldenWords = [
+  "TAKI","إمبراطور","مليون","برق","أسطورة","ملك","حومة","فخامة","تحدي","بطولة",
+  "ذهبي","نار","قوة","عز","مجد","انتصار","بطل","شجاع","كبير","عملاق",
+  "سيد","زعيم","قائد","أمير","سلطان","قيصر","نجم","قمر","شمس","نور",
+  "عظيم","رهيب","خطير","فتاك","مدمر","جبار","صلب","حديد","صخر","بركان",
+  "وحش","أسد","نمر","صقر","نسر","ذيب","فهد","ثعلب","دب","فيل",
+  "كنز","لؤلؤ","ماس","ياقوت","زمرد","جوهرة","تاج","عرش","قصر","ملكوت",
+  "أسد","هيبة","وقار","شهامة","رجولة","كرامة","شرف","نخوة","غيرة","حماس",
+  "ولع","شرارة","صاعقة","رعد","زئير","عاصفة","إعصار","تسونامي","زلزال","بركان",
+  "نجاح","تفوق","تميز","إبداع","ابتكار","اختراع","عبقرية","ذكاء","دهاء","حكمة",
+  "فخر","اعتزاز","شموخ","سمو","علو","رفعة","سيادة","زعامة","ريادة","قيادة"
+];
+    
+    let jokeIndex = 0, motivIndex = 0, riddleIndex = 0;
+    let currentMode = '';
+    let goalTarget = 5000;
+    let isLive = false;
+    let lastChatId = '';
+    let wheelUsers = [];
+    let audioEnabled = true;
+    let currentRiddle = null;
+    let goldenWordActive = null;
+    let bombActive = false;
+    let bombTimer = null;
+    
+    const quranAudio = document.getElementById('quranAudio');
+    const funkAudio = document.getElementById('funkAudio');
+    quranAudio.volume = 0.3;
+    funkAudio.volume = 0.2;
+    
+    const sounds = {
+      thunder: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
+      clap: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
+      laugh: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
+      bomb: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=')
+    };
+    
+    function toggleAudio() {
+      audioEnabled =!audioEnabled;
+      document.getElementById('audioControl').textContent = audioEnabled? '🔊' : '🔇';
+      if (!audioEnabled) {
+        quranAudio.pause();
+        funkAudio.pause();
+      } else {
+        playModeAudio();
+      }
+    }
+    
+    function playModeAudio() {
+      if (!audioEnabled) return;
+      quranAudio.pause();
+      funkAudio.pause();
+      if (currentMode === 'fajr') {
+        quranAudio.play().catch(e => {});
+      } else {
+        funkAudio.play().catch(e => {});
+      }
+    }
+    
+    function getAlgeriaTime() {
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const algTime = new Date(utc + (3600000 * 1));
+      return algTime;
+    }
+    
+    function getCurrentModeByTime() {
+      const hour = getAlgeriaTime().getHours();
+      if (hour >= 0 && hour < 8) return 'fajr';
+      if (hour >= 8 && hour < 20) return 'main';
+      if (hour >= 20 && hour < 23) return 'million';
+      return 'event';
+    }
+    
+    function getNextModeTime() {
+      const now = getAlgeriaTime();
+      const hour = now.getHours();
+      let nextHour;
+      if (hour >= 0 && hour < 8) nextHour = 8;
+      else if (hour >= 8 && hour < 20) nextHour = 20;
+      else if (hour >= 20 && hour < 23) nextHour = 23;
+      else nextHour = 24;
+      
+      const next = new Date(now);
+      next.setHours(nextHour, 0, 0, 0);
+      if (nextHour === 24) {
+        next.setDate(next.getDate() + 1);
+        next.setHours(0);
+      }
+      return next;
+    }
+    
+    function createParticle(type) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      if (type === 'heart') particle.innerHTML = '💗';
+      else if (type === 'gold') particle.innerHTML = '💰';
+      else if (type === 'fire') particle.innerHTML = '🔥';
+      else particle.innerHTML = '⭐';
+      document.getElementById('particles').appendChild(particle);
+      setTimeout(() => particle.remove(), 10000);
+    }
+    
+    function startParticles() {
+      setInterval(() => {
+        if (currentMode === 'fajr') createParticle('heart');
+        else if (currentMode === 'million') createParticle('gold');
+        else if (currentMode === 'event') createParticle('fire');
+        else createParticle('star');
+      }, 500);
+    }
+    
+    function changeMode(mode, manual = false) {
+      if (currentMode === mode &&!manual) return;
+      currentMode = mode;
+      const screen = document.getElementById('screen');
+      const modeText = document.getElementById('mode-text');
+      const centerText = document.getElementById('center-text');
+      const centerSub = document.getElementById('center-sub');
+      screen.className = 'screen mode-' + mode;
+      
+      const liveSpan = isLive? '<span class="live-status active">🔴 مباشر</span>' : '<span class="live-status">⚫ أوفلاين</span>';
+      
+      if (mode === 'fajr') {
+        modeText.innerHTML = liveSpan + ' مود الفجر الملكي 🌙 00:00-08:00';
+        centerText.innerHTML = '🌙 بسم الله الرحمن الرحيم 🌙<br>قرآن كريم يتلى';
+                centerSub.innerHTML = '🕌 اكتب "آمين" +200 حسنة | قرآن كريم';
+        updateHints('🕌 مود الفجر: اكتب آمين |!نقاطي');
+      } else if (mode === 'main') {
+        modeText.innerHTML = liveSpan + ' مود الحومة الإمبراطوري ⚡ 08:00-20:00';
+        showNewRiddle();
+        centerSub.innerHTML = '⚡ أسرع 3 يربحو 200 نقطة + لقب "برق الإمبراطور" ⚡';
+        updateHints('⚡ اكتب!لغز للغز جديد |!جواب X للجواب');
+      } else if (mode === 'million') {
+        modeText.innerHTML = liveSpan + ' مود المليون الملكي 👑 20:00-23:00';
+        centerText.innerHTML = '👑 سؤال المليون الذهبي 👑<br>انتظر تفجير اللحظات...';
+        centerSub.innerHTML = '💎 اكتب!تفجير وقت التفجير | الجائزة: 200-1000 نقطة';
+        updateHints('👑 اكتب!تفجير وقت التفجير |!نقاطي |!ترتيب');
+        startBombSystem();
+      } else if (mode === 'event') {
+        modeText.innerHTML = liveSpan + ' حدث TAKI الأسطوري 🔥 23:00-00:00';
+        centerText.innerHTML = '⚖️ محكمة الإمبراطور ⚖️<br>التهمة: سرقة ستيلو الأستاذ';
+        centerSub.innerHTML = '🔥 اكتب!براءة أو!إدانة | الجائزة: 5000 نقطة';
+        updateHints('🔥 اكتب!براءة أو!إدانة |!نقاطي');
+      }
+      triggerFlash();
+      playModeAudio();
+      updateTimer();
+    }
+
+    function manualChangeMode(mode) {
+      changeMode(mode, true);
+    }
+
+    function showNewRiddle() {
+      riddleIndex = (riddleIndex + 1) % riddles.length;
+      currentRiddle = riddles[riddleIndex];
+      document.getElementById('center-text').innerHTML = `🔥 لغز البرق الإمبراطوري 🔥<br>${currentRiddle.q}`;
+    }
+
+    function updateHints(text) {
+      document.getElementById('hints').innerHTML = `💡 ${text}`;
+    }
+
+    function triggerFlash() {
+      const flash = document.getElementById('flash');
+      flash.classList.add('flash-active');
+      sounds.thunder.play().catch(e => {});
+      setTimeout(() => flash.classList.remove('flash-active'), 400);
+    }
+
+    function updateTimer() {
+      const now = getAlgeriaTime();
+      const next = getNextModeTime();
+      const diff = next - now;
+      const hours = Math.floor(diff / 3600000);
+      const mins = Math.floor((diff % 3600000) / 60000);
+      const secs = Math.floor((diff % 60000) / 1000);
+
+      document.getElementById('timerText').textContent = `المود الحالي ينتهي في: ${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+
+      const modeStart = new Date(now);
+      if (currentMode === 'fajr') modeStart.setHours(0,0,0,0);
+      else if (currentMode === 'main') modeStart.setHours(8,0,0,0);
+      else if (currentMode === 'million') modeStart.setHours(20,0,0,0);
+      else modeStart.setHours(23,0,0,0);
+
+      const totalMs = next - modeStart;
+      const elapsed = now - modeStart;
+      const percent = (elapsed / totalMs) * 100;
+      document.getElementById('timerFill').style.width = percent + '%';
+    }
+
+    async function updateStats() {
+      try {
+        const res = await fetch(`${API_URL}/stats`);
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('subCount').textContent = data.subs;
+          document.getElementById('viewCount').textContent = data.views;
+          document.getElementById('videoCount').textContent = data.videos;
+
+          const currentSubs = data.raw_subs;
+          document.getElementById('goalCurrent').textContent = currentSubs.toLocaleString('ar-DZ');
+
+          if (currentSubs >= goalTarget) {
+            goalTarget += 200;
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            sounds.clap.play().catch(e => {});
+            addChatAlert(`🎉 وصلنا ${goalTarget - 200} مشترك! الهدف الجديد: ${goalTarget}`);
+          }
+
+          document.getElementById('goalTarget').textContent = goalTarget.toLocaleString('ar-DZ');
+          const percent = Math.min((currentSubs / goalTarget) * 100, 100);
+          document.getElementById('goalFill').style.width = percent + '%';
+        }
+      } catch (e) { console.error('Stats Error:', e); }
+    }
+
+    async function updateChat() {
+      try {
+        const res = await fetch(`${API_URL}/chat`);
+        const data = await res.json();
+        const chatBox = document.getElementById('chatBox');
+
+        if (data.success && data.messages.length > 0) {
+          if (!isLive) {
+            isLive = true;
+            document.getElementById('liveStatus').classList.add('active');
+            document.getElementById('liveStatus').textContent = '🔴 مباشر';
+          }
+
+          data.messages.forEach(msg => {
+            if (msg.id === lastChatId) return;
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-msg';
+
+            let userClass = 'chat-author';
+            if (msg.isOwner) userClass += ' owner';
+            else if (msg.isMod) userClass += ' mod';
+
+            msgDiv.innerHTML = `<span class="${userClass}">${msg.user}:</span> ${msg.message}`;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            if (!wheelUsers.includes(msg.user) &&!msg.isOwner &&!msg.isMod) {
+              wheelUsers.push(msg.user);
+            }
+
+            // معالجة الأوامر
+            const lowerMsg = msg.message.toLowerCase().trim();
+
+            //!لغز
+            if (lowerMsg === '!لغز') {
+              showNewRiddle();
+              triggerFlash();
+            }
+
+            //!جواب
+            if (lowerMsg.startsWith('!جواب ') && currentRiddle) {
+              const answer = lowerMsg.replace('!جواب ', '').trim();
+              if (answer === currentRiddle.a.toLowerCase()) {
+                addChatAlert(`⚡ ${msg.user} جاوب صح! +200 نقطة 👑`);
+                confetti({ particleCount: 50, spread: 60 });
+                triggerFlash();
+                showNewRiddle();
+              }
+            }
+
+            // آمين في مود الفجر
+            if (currentMode === 'fajr' && (lowerMsg === 'آمين' || lowerMsg === 'امين')) {
+              addChatAlert(`🕌 ${msg.user} قال آمين +200 حسنة 🌙`);
+              sounds.clap.play().catch(e => {});
+            }
+
+            //!تفجير
+            if (lowerMsg === '!تفجير' && bombActive) {
+              const points = Math.floor(Math.random() * 800) + 200; // 200-1000
+              addChatAlert(`💣 BOOM! ${msg.user} فجر اللحظة وربح ${points} نقطة! 👑`);
+              confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
+              sounds.bomb.play().catch(e => {});
+              bombActive = false;
+              document.getElementById('bombCountdown').classList.remove('active');
+            }
+
+            // الكلمة الذهبية
+            if (goldenWordActive && lowerMsg === goldenWordActive.toLowerCase()) {
+              const points = Math.floor(Math.random() * 300) + 200; // 200-500
+              addChatAlert(`💰 ${msg.user} مسك الكلمة الذهبية "${goldenWordActive}" وربح ${points} نقطة! ✨`);
+              confetti({ particleCount: 100, spread: 70 });
+              sounds.clap.play().catch(e => {});
+              goldenWordActive = null;
+              document.getElementById('goldenWord').classList.remove('active');
+            }
+
+            // كلمة عادية للضحك
+            if (lowerMsg.includes('!نكتة')) {
+              sounds.laugh.play().catch(e => {});
+              jokeIndex = (jokeIndex + 1) % jokes.length;
+              document.getElementById('joke').innerHTML = jokes[jokeIndex];
+            }
+          });
+
+          if (data.messages.length > 0) {
+            lastChatId = data.messages[data.messages.length - 1].id;
+          }
+        } else {
+          if (isLive) {
+            isLive = false;
+            document.getElementById('liveStatus').classList.remove('active');
+            document.getElementById('liveStatus').textContent = '⚫ أوفلاين';
+          }
+        }
+      } catch (e) { console.error('Chat Error:', e); }
+    }
+
+    function addChatAlert(text) {
+      const chatBox = document.getElementById('chatBox');
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'chat-alert';
+      alertDiv.textContent = text;
+      chatBox.appendChild(alertDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function spinWheel() {
+      if (wheelUsers.length === 0) return;
+
+      const wheelContainer = document.getElementById('wheelContainer');
+      const wheel = document.getElementById('wheel');
+      const winner = document.getElementById('wheelWinner');
+
+      wheelContainer.classList.add('active');
+      const randomUser = wheelUsers[Math.floor(Math.random() * wheelUsers.length)];
+      const rotation = 3600 + Math.random() * 360;
+      wheel.style.transform = `rotate(${rotation}deg)`;
+
+      setTimeout(() => {
+        winner.textContent = `🎉 الفائز: ${randomUser} +500 نقطة 🎉`;
+        confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
+        sounds.clap.play().catch(e => {});
+        addChatAlert(`🎰 عجلة الحظ: ${randomUser} ربح 500 نقطة!`);
+
+        setTimeout(() => {
+          wheelContainer.classList.remove('active');
+          wheel.style.transform = 'rotate(0deg)';
+          winner.textContent = '';
+        }, 5000);
+      }, 4000);
+    }
+
+    // نظام تفجير اللحظات في مود المليون
+    function startBombSystem() {
+      if (currentMode!== 'million') return;
+      setInterval(() => {
+        if (currentMode === 'million' &&!bombActive) {
+          triggerBomb();
+        }
+      }, 900000); // كل 15 دقيقة
+    }
+
+    function triggerBomb() {
+      bombActive = true;
+      let count = 10;
+      const bombEl = document.getElementById('bombCountdown');
+      bombEl.classList.add('active');
+      addChatAlert('💣 تفجير اللحظات بعد 10 ثواني! اكتب!تفجير بسرعة!');
+
+      bombTimer = setInterval(() => {
+        bombEl.textContent = count;
+        if (count === 0) {
+          clearInterval(bombTimer);
+          bombEl.classList.remove('active');
+          if (bombActive) {
+            addChatAlert('💥 انفجرت! ما ربحها حتى واحد 😢');
+            bombActive = false;
+          }
+        }
+        count--;
+      }, 1000);
+    }
+
+    // الكلمة الذهبية كل 5 دقائق
+    function spawnGoldenWord() {
+      if (goldenWordActive) return;
+      goldenWordActive = goldenWords[Math.floor(Math.random() * goldenWords.length)];
+      const wordEl = document.getElementById('goldenWord');
+      wordEl.textContent = `✨ ${goldenWordActive} ✨`;
+      wordEl.classList.add('active');
+      addChatAlert(`💰 كلمة ذهبية جديدة! أول واحد يكتبها يربح 200-500 نقطة!`);
+
+      setTimeout(() => {
+        if (goldenWordActive) {
+          wordEl.classList.remove('active');
+          goldenWordActive = null;
+        }
+      }, 60000); // تختفي بعد دقيقة
+    }
+
+    setInterval(() => {
+      jokeIndex = (jokeIndex + 1) % jokes.length;
+      document.getElementById('joke').innerHTML = jokes[jokeIndex];
+      if (Math.random() > 0.7) sounds.laugh.play().catch(e => {});
+    }, 10000);
+
+    setInterval(() => {
+      motivIndex = (motivIndex + 1) % motivations.length;
+      document.getElementById('motivation').innerHTML = motivations[motivIndex];
+    }, 7000);
+
+    setInterval(spinWheel, 7200000);
+    setInterval(spawnGoldenWord, 300000); // كل 5 دقائق
+
+    // تبديل الألغاز كل دقيقة في مود الحومة
+    setInterval(() => {
+      if (currentMode === 'main') showNewRiddle();
+    }, 60000);
+
+    // تشغيل التحديثات
+    startParticles();
+    changeMode(getCurrentModeByTime());
+    updateStats();
+    updateChat();
+    setInterval(updateStats, 30000);
+    setInterval(updateChat, 5000);
+    setInterval(updateTimer, 1000);
+    setInterval(() => {
+      const newMode = getCurrentModeByTime();
+      if (newMode!== currentMode) changeMode(newMode);
+    }, 60000);
+
+    setTimeout(spinWheel, 10000);
+    setTimeout(spawnGoldenWord, 30000);
+
+    document.addEventListener('click', () => {
+      if (audioEnabled) playModeAudio();
+    }, { once: true });
+  </script>
+</body>
+</html>
