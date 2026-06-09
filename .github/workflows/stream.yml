@@ -1,0 +1,83 @@
+name: TAKI 24/7 LIVE AUTO CLICK 👑
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */5 * * *'
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35000
+    
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg xvfb pulseaudio
+          npm install puppeteer
+          
+      - name: Create Puppeteer Script
+        run: |
+          cat > stream.js << 'EOF'
+          const puppeteer = require('puppeteer');
+          const { spawn } = require('child_process');
+          
+          (async () => {
+            // شغل PulseAudio للصوت
+            spawn('pulseaudio', ['--start']);
+            
+            const browser = await puppeteer.launch({
+              headless: false,
+              args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--window-size=1280,720',
+                '--start-fullscreen',
+                '--autoplay-policy=no-user-gesture-required',
+                '--use-fake-ui-for-media-stream'
+              ]
+            });
+            
+            const page = await browser.newPage();
+            await page.setViewport({ width: 1280, height: 720 });
+            
+            // افتح الأوفرلاي
+            await page.goto('https://cloudflare-api-fhwe.onrender.com/', { waitUntil: 'networkidle2' });
+            
+            // استنى 5 ثواني
+            await new Promise(r => setTimeout(r, 5000));
+            
+            // الضغطة الوهمية السحرية 👑
+            await page.mouse.click(640, 360); // ضغطة في وسط الشاشة
+            await page.keyboard.press('Space'); // ضغطة Space احتياط
+            
+            console.log('✅ ضغطنا والصوت خدام');
+            
+            // ابدا البث FFmpeg يهز صوت وفيديو من المتصفح
+            const ffmpeg = spawn('ffmpeg', [
+              '-f', 'x11grab', '-video_size', '1280x720', '-framerate', '30', '-i', ':99.0',
+              '-f', 'pulse', '-i', 'default',
+              '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k',
+              '-c:a', 'aac', '-b:a', '128k',
+              '-f', 'flv', `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_KEY}`
+            ]);
+            
+            ffmpeg.stderr.on('data', (data) => console.log(data.toString()));
+            
+          })();
+          EOF
+          
+      - name: Start Stream 🔥
+        env:
+          YOUTUBE_KEY: ${{ secrets.YOUTUBE_KEY }}
+          DISPLAY: ':99'
+        run: |
+          Xvfb :99 -screen 0 1280x720x24 &
+          sleep 3
+          node stream.js
