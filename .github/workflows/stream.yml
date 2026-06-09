@@ -1,4 +1,4 @@
-name: TAKI 24/7 LIVE AUTO CLICK 👑
+name: TAKI 24/7 LIVE CHAT 👑
 
 on:
   workflow_dispatch:
@@ -19,17 +19,16 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg xvfb pulseaudio
+          sudo apt-get install -y ffmpeg xvfb pulseaudio unclutter
           npm install puppeteer
           
-      - name: Create Puppeteer Script
+      - name: Create Stream Script
         run: |
           cat > stream.js << 'EOF'
           const puppeteer = require('puppeteer');
           const { spawn } = require('child_process');
           
           (async () => {
-            // شغل PulseAudio للصوت
             spawn('pulseaudio', ['--start']);
             
             const browser = await puppeteer.launch({
@@ -39,43 +38,72 @@ jobs:
                 '--disable-setuid-sandbox',
                 '--window-size=1280,720',
                 '--start-fullscreen',
+                '--kiosk',
                 '--autoplay-policy=no-user-gesture-required',
-                '--use-fake-ui-for-media-stream'
+                '--disable-translate',
+                '--disable-features=TranslateUI',
+                '--lang=ar'
               ]
             });
             
             const page = await browser.newPage();
             await page.setViewport({ width: 1280, height: 720 });
             
-            // افتح الأوفرلاي
-            await page.goto('https://cloudflare-api-fhwe.onrender.com/', { waitUntil: 'networkidle2' });
+            await page.evaluateOnNewDocument(() => {
+              Object.defineProperty(navigator, 'language', { get: () => 'ar-DZ' });
+              Object.defineProperty(navigator, 'languages', { get: () => ['ar-DZ', 'ar'] });
+            });
             
-            // استنى 5 ثواني
-            await new Promise(r => setTimeout(r, 5000));
+            await page.goto('OVERLAY_URL', {
+              waitUntil: 'networkidle2',
+              timeout: 60000
+            });
             
-            // الضغطة الوهمية السحرية 👑
-            await page.mouse.click(640, 360); // ضغطة في وسط الشاشة
-            await page.keyboard.press('Space'); // ضغطة Space احتياط
+            await new Promise(r => setTimeout(r, 8000));
             
-            console.log('✅ ضغطنا والصوت خدام');
+            await page.evaluate(() => {
+              // 1. نحّي تبديل الأوضاع
+              document.querySelectorAll('[class*="mode"], [class*="switch"], [id*="toggle"], [class*="theme"]').forEach(el => el.remove());
+              
+              // 2. شات شفاف فوق على اليسار
+              const chat = document.createElement('iframe');
+              chat.src = `https://www.youtube.com/live_chat?v=${process.env.LIVE_ID}&embed_domain=onrender.com&dark_theme=1`;
+              chat.style.cssText = 'position:fixed;top:15px;left:15px;width:320px;height:450px;border:none;z-index:999;background:rgba(0,0,0,0.25);border-radius:8px;pointer-events:none;';
+              document.body.appendChild(chat);
+              
+              // 3. نخبيو الماوس
+              const style = document.createElement('style');
+              style.innerHTML = '* { cursor: none !important; }';
+              document.head.appendChild(style);
+              
+              // 4. نضغطو على زر الصوت
+              document.body.click();
+              const keywords = ['play','sound','audio','صوت','تشغيل','speaker','volume'];
+              Array.from(document.querySelectorAll('button,div,i,span,a')).find(btn => {
+                const text = (btn.innerText + btn.className + btn.id).toLowerCase();
+                if(keywords.some(k => text.includes(k))) { btn.click(); return true; }
+              });
+            });
             
-            // ابدا البث FFmpeg يهز صوت وفيديو من المتصفح
+            console.log('✅ خدام');
+            spawn('unclutter', ['-idle', '0', '-root']);
+            
             const ffmpeg = spawn('ffmpeg', [
-              '-f', 'x11grab', '-video_size', '1280x720', '-framerate', '30', '-i', ':99.0',
+              '-f', 'x11grab', '-framerate', '30', '-video_size', '1280x720', '-i', ':99.0',
               '-f', 'pulse', '-i', 'default',
-              '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k',
-              '-c:a', 'aac', '-b:a', '128k',
+              '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k', '-maxrate', '3000k', '-bufsize', '6000k', '-g', '60',
+              '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
               '-f', 'flv', `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_KEY}`
             ]);
             
             ffmpeg.stderr.on('data', (data) => console.log(data.toString()));
-            
           })();
           EOF
           
-      - name: Start Stream 🔥
+      - name: Start Stream
         env:
           YOUTUBE_KEY: ${{ secrets.YOUTUBE_KEY }}
+          LIVE_ID: ${{ secrets.LIVE_ID }}
           DISPLAY: ':99'
         run: |
           Xvfb :99 -screen 0 1280x720x24 &
