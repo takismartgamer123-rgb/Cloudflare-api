@@ -63,7 +63,7 @@ jobs:
             
             await page.evaluate(() => {
               // 1. نحّي تبديل الأوضاع
-              document.querySelectorAll('[class*="mode"], [class*="switch"], [id*="toggle"], [class*="theme"]').forEach(el => el.remove());
+              document.querySelectorAll('[class*="mode"], [class*=https://cloudflare-api-fhwe.onrender.com/e"], [class*="theme"]').forEach(el => el.remove());
               
               // 2. شات شفاف فوق على اليسار
               const chat = document.createElement('iframe');
