@@ -19,7 +19,14 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg xvfb pulseaudio unclutter chromium-browser dbus-x11
+          sudo apt-get install -y ffmpeg xvfb pulseaudio unclutter dbus-x11 \
+            ca-certificates fonts-liberation libasound2 libatk-bridge2.0-0 \
+            libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 \
+            libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 \
+            libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 \
+            libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 \
+            libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
+            libxtst6 lsb-release wget xdg-utils
           npm install puppeteer
           
       - name: Create Stream Script
@@ -31,22 +38,25 @@ jobs:
           (async () => {
             try {
               console.log('1. Starting pulseaudio...');
-              spawn('pulseaudio', ['--start']);
+              spawn('pulseaudio', ['--start', '--exit-idle-time=-1']);
+              await new Promise(r => setTimeout(r, 2000));
               
               console.log('2. Launching browser...');
               const browser = await puppeteer.launch({
-                executablePath: '/usr/bin/chromium-browser',
                 headless: false,
                 args: [
                   '--no-sandbox',
                   '--disable-setuid-sandbox',
+                  '--disable-dev-shm-usage',
+                  '--disable-gpu',
                   '--window-size=1280,720',
                   '--kiosk',
                   '--autoplay-policy=no-user-gesture-required',
                   '--disable-translate',
                   '--disable-features=TranslateUI',
                   '--lang=ar',
-                  '--disable-dev-shm-usage'
+                  '--use-fake-ui-for-media-stream',
+                  '--use-fake-device-for-media-stream'
                 ]
               });
               
@@ -54,7 +64,7 @@ jobs:
               await page.setViewport({ width: 1280, height: 720 });
               
               console.log('3. Going to overlay...');
-              if (!process.env.OVERLAY_URL) throw new Error('OVERLAY_URL مش موجود');
+              if (!process.env.OVERLAY_URL) throw new Error('OVERLAY_URL مش موجود في Secrets');
               await page.goto(process.env.OVERLAY_URL, {
                 waitUntil: 'networkidle2',
                 timeout: 60000
@@ -64,19 +74,25 @@ jobs:
               
               console.log('4. Injecting chat + hiding stuff...');
               await page.evaluate((liveId) => {
+                // نحّي تبديل الأوضاع
                 document.querySelectorAll('[class*="mode"], [class*="switch"], [id*="toggle"], [class*="theme"]').forEach(el => el.remove());
                 
-                const chat = document.createElement('iframe');
-                chat.src = `https://www.youtube.com/live_chat?v=${liveId}&embed_domain=onrender.com&dark_theme=1`;
-                chat.style.cssText = 'position:fixed;top:15px;left:15px;width:320px;height:450px;border:none;z-index:999;background:rgba(0,0,0,0.25);border-radius:8px;pointer-events:none;';
-                document.body.appendChild(chat);
+                // شات شفاف فوق على اليسار
+                if (liveId) {
+                  const chat = document.createElement('iframe');
+                  chat.src = `https://www.youtube.com/live_chat?v=${liveId}&embed_domain=onrender.com&dark_theme=1`;
+                  chat.style.cssText = 'position:fixed;top:15px;left:15px;width:320px;height:450px;border:none;z-index:999;background:rgba(0,0,0,0.25);border-radius:8px;pointer-events:none;';
+                  document.body.appendChild(chat);
+                }
                 
+                // نخبيو الماوس
                 const style = document.createElement('style');
                 style.innerHTML = '* { cursor: none !important; }';
                 document.head.appendChild(style);
                 
+                // نضغطو على زر الصوت
                 document.body.click();
-                const keywords = ['play','sound','audio','صوت','تشغيل','speaker','volume'];
+                const keywords = ['play','sound','audio','صوت','تشغيل','speaker','volume','unmute'];
                 Array.from(document.querySelectorAll('button,div,i,span,a')).find(btn => {
                   const text = (btn.innerText + btn.className + btn.id).toLowerCase();
                   if(keywords.some(k => text.includes(k))) { btn.click(); return true; }
@@ -84,13 +100,13 @@ jobs:
               }, process.env.LIVE_ID);
               
               console.log('5. Starting ffmpeg...');
-              if (!process.env.YOUTUBE_KEY) throw new Error('YOUTUBE_KEY مش موجود');
+              if (!process.env.YOUTUBE_KEY) throw new Error('YOUTUBE_KEY مش موجود في Secrets');
               spawn('unclutter', ['-idle', '0', '-root']);
               
               const ffmpeg = spawn('ffmpeg', [
                 '-f', 'x11grab', '-framerate', '30', '-video_size', '1280x720', '-i', ':99.0',
                 '-f', 'pulse', '-i', 'default',
-                '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k', '-g', '60',
+                '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k', '-maxrate', '3000k', '-bufsize', '6000k', '-g', '60', '-pix_fmt', 'yuv420p',
                 '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
                 '-f', 'flv', `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_KEY}`
               ]);
@@ -112,9 +128,9 @@ jobs:
         env:
           YOUTUBE_KEY: ${{ secrets.YOUTUBE_KEY }}
           LIVE_ID: ${{ secrets.LIVE_ID }}
-          OVERLAY_URL: ${{ secrets.OVERLAY_URL }} # زيدو في Secrets
+          OVERLAY_URL: ${{ secrets.OVERLAY_URL }}
           DISPLAY: ':99'
         run: |
-          Xvfb :99 -screen 0 1280x720x24 -nolisten tcp &
+          Xvfb :99 -screen 0 1280x720x24 -nolisten tcp -nolisten unix &
           sleep 3
-          dbus-launch node stream.js
+          dbus-launch --exit-with-session node stream.js
