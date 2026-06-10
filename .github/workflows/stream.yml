@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg xvfb pulseaudio unclutter
+          sudo apt-get install -y ffmpeg xvfb pulseaudio unclutter chromium-browser dbus-x11
           npm install puppeteer
           
       - name: Create Stream Script
@@ -29,74 +29,82 @@ jobs:
           const { spawn } = require('child_process');
           
           (async () => {
-            spawn('pulseaudio', ['--start']);
-            
-            const browser = await puppeteer.launch({
-              headless: false,
-              args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--window-size=1280,720',
-                '--start-fullscreen',
-                '--kiosk',
-                '--autoplay-policy=no-user-gesture-required',
-                '--disable-translate',
-                '--disable-features=TranslateUI',
-                '--lang=ar'
-              ]
-            });
-            
-            const page = await browser.newPage();
-            await page.setViewport({ width: 1280, height: 720 });
-            
-            await page.evaluateOnNewDocument(() => {
-              Object.defineProperty(navigator, 'language', { get: () => 'ar-DZ' });
-              Object.defineProperty(navigator, 'languages', { get: () => ['ar-DZ', 'ar'] });
-            });
-            
-            await page.goto('OVERLAY_URL', {
-              waitUntil: 'networkidle2',
-              timeout: 60000
-            });
-            
-            await new Promise(r => setTimeout(r, 8000));
-            
-            await page.evaluate(() => {
-              // 1. نحّي تبديل الأوضاع
-              document.querySelectorAll('[class*="mode"], [class*=https://cloudflare-api-fhwe.onrender.com/e"], [class*="theme"]').forEach(el => el.remove());
+            try {
+              console.log('1. Starting pulseaudio...');
+              spawn('pulseaudio', ['--start']);
               
-              // 2. شات شفاف فوق على اليسار
-              const chat = document.createElement('iframe');
-              chat.src = `https://www.youtube.com/live_chat?v=${process.env.LIVE_ID}&embed_domain=onrender.com&dark_theme=1`;
-              chat.style.cssText = 'position:fixed;top:15px;left:15px;width:320px;height:450px;border:none;z-index:999;background:rgba(0,0,0,0.25);border-radius:8px;pointer-events:none;';
-              document.body.appendChild(chat);
-              
-              // 3. نخبيو الماوس
-              const style = document.createElement('style');
-              style.innerHTML = '* { cursor: none !important; }';
-              document.head.appendChild(style);
-              
-              // 4. نضغطو على زر الصوت
-              document.body.click();
-              const keywords = ['play','sound','audio','صوت','تشغيل','speaker','volume'];
-              Array.from(document.querySelectorAll('button,div,i,span,a')).find(btn => {
-                const text = (btn.innerText + btn.className + btn.id).toLowerCase();
-                if(keywords.some(k => text.includes(k))) { btn.click(); return true; }
+              console.log('2. Launching browser...');
+              const browser = await puppeteer.launch({
+                executablePath: '/usr/bin/chromium-browser',
+                headless: false,
+                args: [
+                  '--no-sandbox',
+                  '--disable-setuid-sandbox',
+                  '--window-size=1280,720',
+                  '--kiosk',
+                  '--autoplay-policy=no-user-gesture-required',
+                  '--disable-translate',
+                  '--disable-features=TranslateUI',
+                  '--lang=ar',
+                  '--disable-dev-shm-usage'
+                ]
               });
-            });
-            
-            console.log('✅ خدام');
-            spawn('unclutter', ['-idle', '0', '-root']);
-            
-            const ffmpeg = spawn('ffmpeg', [
-              '-f', 'x11grab', '-framerate', '30', '-video_size', '1280x720', '-i', ':99.0',
-              '-f', 'pulse', '-i', 'default',
-              '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k', '-maxrate', '3000k', '-bufsize', '6000k', '-g', '60',
-              '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
-              '-f', 'flv', `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_KEY}`
-            ]);
-            
-            ffmpeg.stderr.on('data', (data) => console.log(data.toString()));
+              
+              const page = await browser.newPage();
+              await page.setViewport({ width: 1280, height: 720 });
+              
+              console.log('3. Going to overlay...');
+              if (!process.env.OVERLAY_URL) throw new Error('OVERLAY_URL مش موجود');
+              await page.goto(process.env.OVERLAY_URL, {
+                waitUntil: 'networkidle2',
+                timeout: 60000
+              });
+              
+              await new Promise(r => setTimeout(r, 8000));
+              
+              console.log('4. Injecting chat + hiding stuff...');
+              await page.evaluate((liveId) => {
+                document.querySelectorAll('[class*="mode"], [class*="switch"], [id*="toggle"], [class*="theme"]').forEach(el => el.remove());
+                
+                const chat = document.createElement('iframe');
+                chat.src = `https://www.youtube.com/live_chat?v=${liveId}&embed_domain=onrender.com&dark_theme=1`;
+                chat.style.cssText = 'position:fixed;top:15px;left:15px;width:320px;height:450px;border:none;z-index:999;background:rgba(0,0,0,0.25);border-radius:8px;pointer-events:none;';
+                document.body.appendChild(chat);
+                
+                const style = document.createElement('style');
+                style.innerHTML = '* { cursor: none !important; }';
+                document.head.appendChild(style);
+                
+                document.body.click();
+                const keywords = ['play','sound','audio','صوت','تشغيل','speaker','volume'];
+                Array.from(document.querySelectorAll('button,div,i,span,a')).find(btn => {
+                  const text = (btn.innerText + btn.className + btn.id).toLowerCase();
+                  if(keywords.some(k => text.includes(k))) { btn.click(); return true; }
+                });
+              }, process.env.LIVE_ID);
+              
+              console.log('5. Starting ffmpeg...');
+              if (!process.env.YOUTUBE_KEY) throw new Error('YOUTUBE_KEY مش موجود');
+              spawn('unclutter', ['-idle', '0', '-root']);
+              
+              const ffmpeg = spawn('ffmpeg', [
+                '-f', 'x11grab', '-framerate', '30', '-video_size', '1280x720', '-i', ':99.0',
+                '-f', 'pulse', '-i', 'default',
+                '-c:v', 'libx264', '-preset', 'veryfast', '-b:v', '2500k', '-g', '60',
+                '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
+                '-f', 'flv', `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_KEY}`
+              ]);
+              
+              ffmpeg.stderr.on('data', (data) => console.log('FFMPEG:', data.toString()));
+              ffmpeg.on('exit', (code) => {
+                console.log('FFMPEG خرج بكود:', code);
+                process.exit(code);
+              });
+              
+            } catch (err) {
+              console.error('خطأ قاتل:', err.message);
+              process.exit(1);
+            }
           })();
           EOF
           
@@ -104,8 +112,9 @@ jobs:
         env:
           YOUTUBE_KEY: ${{ secrets.YOUTUBE_KEY }}
           LIVE_ID: ${{ secrets.LIVE_ID }}
+          OVERLAY_URL: ${{ secrets.OVERLAY_URL }} # زيدو في Secrets
           DISPLAY: ':99'
         run: |
-          Xvfb :99 -screen 0 1280x720x24 &
+          Xvfb :99 -screen 0 1280x720x24 -nolisten tcp &
           sleep 3
-          node stream.js
+          dbus-launch node stream.js
