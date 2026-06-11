@@ -1,170 +1,127 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" translate="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
+  <meta name="google" content="notranslate">
   <title>TAKI ULTIMATE V13.4 EMPEROR 👑</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: transparent;
-      color: #fff;
-      width: 1280px;
-      height: 720px;
-      overflow: hidden;
-      position: relative;
-    }
-    
+    html, body, * { cursor: none!important; -webkit-user-select: none!important; user-select: none!important; }
+  .goog-te-banner-frame,.skiptranslate, #goog-gt-tt,.goog-te-gadget,.controls { display: none!important; visibility: hidden!important; }
+    body { font-family: 'Cairo', sans-serif; background: transparent; color: #fff; width: 1280px; height: 720px; overflow: hidden; position: relative; pointer-events: none; }
     #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-    .particle { position: absolute; font-size: 20px; animation: float 10s linear infinite; opacity: 0; }
-    @keyframes float {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-    }
-    
-    .bg-animated { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
-    .mode-fajr.bg-animated { background: radial-gradient(circle, #0B132B 0%, #000 100%); animation: stars 50s linear infinite; }
-    .mode-main.bg-animated { background: linear-gradient(135deg, #001F3F 0%, #000 100%); animation: lightning-bg 3s ease-in-out infinite; }
-    .mode-million.bg-animated { background: linear-gradient(135deg, #3F2F00 0%, #000 100%); animation: gold-rain 5s linear infinite; }
-    .mode-event.bg-animated { background: linear-gradient(135deg, #3F0000 0%, #000 100%); animation: fire 2s ease-in-out infinite; }
-    @keyframes stars { 0% { background-position: 0 0; } 100% { background-position: 1000px 1000px; } }
+  .particle { position: absolute; font-size: 18px; animation: float 10s linear infinite; opacity: 0; }
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
+  .bg-animated { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
+  .mode-fajr.bg-animated { background: radial-gradient(circle, #0B132B 0%, #000 100%); animation: stars 50s linear infinite; }
+  .mode-main.bg-animated { background: linear-gradient(135deg, #001F3F 0%, #000 100%); animation: lightning-bg 3s ease-in-out infinite; }
+  .mode-million.bg-animated { background: linear-gradient(135deg, #3F2F00 0%, #000 100%); animation: gold-rain 5s linear infinite; }
+  .mode-event.bg-animated { background: linear-gradient(135deg, #3F0000 0%, #000 100%); animation: fire 2s ease-in-out infinite; }
+    @keyframes stars { 0% { background-position: 0 0; } 100% { background-position: 1000px; } }
     @keyframes lightning-bg { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
     @keyframes gold-rain { 0% { background-position: 0 -100%; } 100% { background-position: 0 100%; } }
     @keyframes fire { 0%, 100% { filter: hue-rotate(0deg) brightness(1); } 50% { filter: hue-rotate(10deg) brightness(1.2); } }
-    
-    .screen { width: 100%; height: 100%; position: relative; overflow: hidden; z-index: 2; }
-    
-    .achievement-ticker { background: linear-gradient(90deg, #FFD700, #FF0000, #FFD700); color: #000; padding: 8px; font-size: 14px; font-weight: 900; white-space: nowrap; overflow: hidden; animation: rainbow-border 3s linear infinite; }
+  .screen { width: 100%; height: 100%; position: relative; overflow: hidden; z-index: 2; padding: 3px; display: grid!important; grid-template-columns: 1fr 380px!important; grid-template-rows: auto auto 1fr auto; gap: 3px; }
+  .achievement-ticker,.mode-timer,.header { grid-column: 1 / 3; }
+  .joke-box,.motivation-box,.stats-box,.main-content,.bottom-row,.hints,.footer { grid-column: 1; }
+  .chat { grid-column: 2; grid-row: 4 / 9!important; max-height: unset!important; height: calc(720px - 140px)!important; margin: 3px!important; font-size: 15px!important; }
+  .achievement-ticker { background: linear-gradient(90deg, #FFD700, #FF0000, #FFD700); color: #000; padding: 5px; font-size: 12px; font-weight: 900; white-space: nowrap; overflow: hidden; animation: rainbow-border 3s linear infinite; }
     @keyframes rainbow-border { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-    .ticker-content { display: inline-block; animation: scroll 15s linear infinite; }
+  .ticker-content { display: inline-block; animation: scroll 15s linear infinite; }
     @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-    
-    .mode-timer { background: rgba(0,0,0,0.8); padding: 5px; text-align: center; font-size: 13px; font-weight: 700; border-bottom: 2px solid #FFD700; }
-    .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.2); margin-top: 3px; }
-    .timer-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF0000); width: 100%; transition: width 1s linear; }
-    
-    .header { background: rgba(0,0,0,0.95); border: 3px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000) 1; border-radius: 15px; padding: 12px; margin: 6px; box-shadow: 0 0 30px rgba(255,215,0,0.6); animation: royal-glow 3s ease-in-out infinite; }
-    @keyframes royal-glow { 0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.6); } 50% { box-shadow: 0 0 50px rgba(255,215,0,0.9); } }
-    .channel-name { font-size: 24px; font-weight: 900; background: linear-gradient(45deg, #FFD700, #00BFFF, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; animation: text-shine 2s linear infinite; }
+  .mode-timer { background: rgba(0,0,0,0.8); padding: 3px; text-align: center; font-size: 11px; font-weight: 700; border-bottom: 2px solid #FFD700; }
+  .timer-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.2); margin-top: 2px; }
+  .timer-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF0000); width: 100%; transition: width 1s linear; }
+  .header { background: rgba(0,0,0,0.95); border: 2px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000) 1; border-radius: 10px; padding: 6px; margin: 3px; box-shadow: 0 0 20px rgba(255,215,0,0.6); animation: royal-glow 3s ease-in-out infinite; }
+    @keyframes royal-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.6); } 50% { box-shadow: 0 0 40px rgba(255,215,0,0.9); } }
+  .channel-name { font-size: 20px; font-weight: 900; background: linear-gradient(45deg, #FFD700, #00BFFF, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; animation: text-shine 2s linear infinite; }
     @keyframes text-shine { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-    .mode-info { font-size: 16px; text-align: center; margin-top: 5px; color: #fff; font-weight: 700; }
-    .live-status { display: inline-block; padding: 2px 8px; background: #555; border-radius: 5px; margin-left: 5px; }
-    .live-status.active { background: #FF0000; animation: pulse-live 1s infinite; }
+  .mode-info { font-size: 14px; text-align: center; margin-top: 2px; color: #fff; font-weight: 700; }
+  .live-status { display: inline-block; padding: 1px 5px; background: #555; border-radius: 4px; margin-left: 4px; }
+  .live-status.active { background: #FF0000; animation: pulse-live 1s infinite; }
     @keyframes pulse-live { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    
-    .joke-box { background: linear-gradient(135deg, #4B0082, #8B008B); padding: 10px; margin: 6px; border-radius: 15px; border: 2px solid #FF69B4; animation: bounce 2s ease-in-out infinite; }
-    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-    .joke-title { font-size: 15px; font-weight: 900; color: #FFD700; text-align: center; }
-    .joke-text { font-size: 14px; color: #fff; text-align: center; margin-top: 3px; }
-    
-    .motivation-box { background: linear-gradient(135deg, #006400, #00FF00); padding: 10px; margin: 6px; border-radius: 15px; text-align: center; border: 2px solid #00FF00; animation: pulse-green 1.5s ease-in-out infinite; }
-    @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 20px rgba(0,255,0,0.5); } 50% { box-shadow: 0 0 40px rgba(0,255,0,0.9); } }
-    .motivation-text { font-size: 16px; font-weight: 900; color: #000; text-shadow: 0 0 10px #fff; }
-    
-    .stats-box { background: rgba(0,0,0,0.95); padding: 12px; margin: 6px; border: 3px solid #FFD700; border-radius: 15px; box-shadow: inset 0 0 20px rgba(255,215,0,0.3); }
-    .stats-title { font-size: 16px; font-weight: 900; color: #FFD700; text-align: center; margin-bottom: 8px; text-shadow: 0 0 10px #FFD700; }
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 15px; margin-bottom: 10px; }
-    .stat-item { padding: 6px; background: rgba(255,255,255,0.1); border-radius: 8px; text-align: center; font-weight: 700; }
-    .stat-subs { color: #FFD700; border: 1px solid #FFD700; }
-    .stat-views { color: #00BFFF; border: 1px solid #00BFFF; }
-    .stat-videos { color: #fff; border: 1px solid #fff; }
-    .stat-record { color: #FF0000; border: 1px solid #FF0000; }
-    
-    .goal-box { margin-top: 8px; }
-    .goal-text { font-size: 13px; text-align: center; margin-bottom: 4px; font-weight: 700; }
-    .goal-bar { width: 100%; height: 18px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; border: 2px solid #FFD700; }
-    .goal-fill { height: 100%; background: linear-gradient(90deg, #FF0000, #FFD700, #00FF00); width: 0%; transition: width 0.5s ease; box-shadow: 0 0 15px #FFD700; }
-    
-    .main-content { background: rgba(0,0,0,0.9); padding: 15px; margin: 6px; text-align: center; border: 4px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000, #FFD700) 1; border-radius: 20px; min-height: 120px; position: relative; animation: content-glow 2s ease-in-out infinite; cursor: pointer; }
+  .joke-box { background: linear-gradient(135deg, #4B0082, #8B008B); padding: 6px; margin: 3px; border-radius: 10px; border: 2px solid #FF69B4; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  .joke-title { font-size: 13px; font-weight: 900; color: #FFD700; text-align: center; }
+  .joke-text { font-size: 12px; color: #fff; text-align: center; margin-top: 2px; }
+  .motivation-box { background: linear-gradient(135deg, #006400, #00FF00); padding: 6px; margin: 3px; border-radius: 10px; text-align: center; border: 2px solid #00FF00; animation: pulse-green 1.5s ease-in-out infinite; }
+    @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 15px rgba(0,255,0,0.5); } 50% { box-shadow: 0 0 30px rgba(0,255,0,0.9); } }
+  .motivation-text { font-size: 14px; font-weight: 900; color: #000; text-shadow: 0 0 8px #fff; }
+  .stats-box { background: rgba(0,0,0,0.95); padding: 6px; margin: 3px; border: 2px solid #FFD700; border-radius: 10px; box-shadow: inset 0 0 15px rgba(255,215,0,0.3); }
+  .stats-title { font-size: 14px; font-weight: 900; color: #FFD700; text-align: center; margin-bottom: 4px; text-shadow: 0 0 8px #FFD700; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 13px; margin-bottom: 4px; }
+  .stat-item { padding: 4px; background: rgba(255,255,255,0.1); border-radius: 6px; text-align: center; font-weight: 700; }
+  .stat-subs { color: #FFD700; border: 1px solid #FFD700; }
+  .stat-views { color: #00BFFF; border: 1px solid #00BFFF; }
+  .stat-videos { color: #fff; border: 1px solid #fff; }
+  .stat-record { color: #FF0000; border: 1px solid #FF0000; }
+  .goal-box { margin-top: 4px; }
+  .goal-text { font-size: 11px; text-align: center; margin-bottom: 2px; font-weight: 700; }
+  .goal-bar { width: 100%; height: 14px; background: rgba(0,0,0,0.5); border-radius: 7px; overflow: hidden; border: 2px solid #FFD700; }
+  .goal-fill { height: 100%; background: linear-gradient(90deg, #FF0000, #FFD700, #00FF00); width: 0%; transition: width 0.5s ease; box-shadow: 0 0 10px #FFD700; }
+  .main-content { background: rgba(0,0,0,0.9); padding: 8px; margin: 3px; text-align: center; border: 3px solid; border-image: linear-gradient(45deg, #FFD700, #00BFFF, #FF0000, #FFD700) 1; border-radius: 12px; min-height: 90px; position: relative; animation: content-glow 2s ease-in-out infinite; }
     @keyframes content-glow { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
-    .big-text { font-size: 22px; font-weight: 900; line-height: 1.4; text-shadow: 0 0 20px currentColor; }
-    .sub-text { font-size: 15px; color: #FFD700; margin-top: 10px; font-weight: 700; }
-    
-    /* الكلمة الذهبية */
-    .golden-word { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; padding: 8px 20px; border-radius: 20px; font-weight: 900; font-size: 18px; box-shadow: 0 0 30px #FFD700; display: none; animation: golden-pulse 1s ease-in-out infinite; z-index: 10; }
-    .golden-word.active { display: block; }
+  .big-text { font-size: 18px; font-weight: 900; line-height: 1.2; text-shadow: 0 0 15px currentColor; }
+  .sub-text { font-size: 13px; color: #FFD700; margin-top: 4px; font-weight: 700; }
+  .golden-word { position: absolute; top: 3px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; padding: 6px 16px; border-radius: 15px; font-weight: 900; font-size: 16px; box-shadow: 0 0 20px #FFD700; display: none; animation: golden-pulse 1s ease-in-out infinite; z-index: 10; }
+  .golden-word.active { display: block; }
     @keyframes golden-pulse { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } }
-    
-    /* تفجير اللحظات */
-    .bomb-countdown { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: 900; color: #FF0000; text-shadow: 0 0 40px #FF0000; display: none; z-index: 100; animation: bomb-pulse 1s ease-in-out infinite; }
-    .bomb-countdown.active { display: block; }
+  .bomb-countdown { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 70px; font-weight: 900; color: #FF0000; text-shadow: 0 0 30px #FF0000; display: none; z-index: 100; animation: bomb-pulse 1s ease-in-out infinite; }
+  .bomb-countdown.active { display: block; }
     @keyframes bomb-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.2); } }
-    
-    .wheel-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: rgba(0,0,0,0.95); border: 5px solid #FFD700; border-radius: 50%; display: none; z-index: 1000; box-shadow: 0 0 50px #FFD700; }
-    .wheel-container.active { display: block; animation: wheel-appear 0.5s ease; }
+  .wheel-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 250px; background: rgba(0,0,0,0.95); border: 4px solid #FFD700; border-radius: 50%; display: none; z-index: 1000; box-shadow: 0 0 40px #FFD700; }
+  .wheel-container.active { display: block; animation: wheel-appear 0.5s ease; }
     @keyframes wheel-appear { 0% { transform: translate(-50%, -50%) scale(0); } 100% { transform: translate(-50%, -50%) scale(1); } }
-    .wheel { width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#FF0000 0deg 60deg, #00FF00 60deg 120deg, #0000FF 120deg 180deg, #FFFF00 180deg 240deg, #FF00FF 240deg 300deg, #00FFFF 300deg 360deg); transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-    .wheel-pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; text-shadow: 0 0 10px #FFD700; }
-    .wheel-winner { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); background: #FFD700; color: #000; padding: 10px 20px; border-radius: 10px; font-weight: 900; font-size: 18px; white-space: nowrap; }
-    
-    .bottom-row { display: flex; gap: 6px; margin: 6px; }
-    .top3,.commands { flex: 1; background: rgba(0,0,0,0.95); padding: 12px; border: 3px solid #FFD700; border-radius: 15px; box-shadow: 0 0 20px rgba(255,215,0,0.4); }
-    .box-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; color: #FFD700; text-align: center; text-shadow: 0 0 10px #FFD700; }
-    .top3-item { font-size: 14px; margin: 6px 0; padding: 6px; background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent); border-radius: 8px; font-weight: 700; }
-    .cmd-item { font-size: 14px; margin: 6px 0; padding: 6px; background: rgba(0,191,255,0.2); border-radius: 8px; font-weight: 700; border: 1px solid #00BFFF; }
-    
-    .chat { background: rgba(0,0,0,0.95); padding: 12px; margin: 6px; border: 3px solid #FF69B4; border-radius: 15px; font-size: 14px; max-height: 120px; overflow-y: auto; box-shadow: 0 0 20px rgba(255,105,180,0.4); }
-    .chat-msg { margin: 8px 0; padding: 6px; background: rgba(255,255,255,0.08); border-radius: 8px; border-right: 3px solid #FF69B4; animation: msgSlide 0.3s ease; }
-    @keyframes msgSlide { 0% { transform: translateX(20px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-    .chat-author { color: #FF69B4; font-weight: 900; font-size: 15px; }
-    .chat-bot { color: #00FF00; font-weight: 900; }
-    .chat-alert { background: linear-gradient(90deg, #FFD700, #FF0000); color: #000; font-weight: 900; text-align: center; padding: 8px; border-radius: 8px; animation: alertPulse 0.5s ease; }
+  .wheel { width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#FF0000 0deg 60deg, #00FF00 60deg 120deg, #0000FF 120deg 180deg, #FFFF00 180deg 240deg, #FF00FF 240deg 300deg, #00FFFF 300deg 360deg); transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+  .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 35px; color: #FFD700; text-shadow: 0 0 8px #FFD700; }
+  .wheel-winner { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); background: #FFD700; color: #000; padding: 8px 16px; border-radius: 8px; font-weight: 900; font-size: 16px; white-space: nowrap; }
+  .bottom-row { display: flex; gap: 4px; margin: 3px; }
+  .top3,.commands { flex: 1; background: rgba(0,0,0,0.95); padding: 8px; border: 2px solid #FFD700; border-radius: 10px; box-shadow: 0 0 15px rgba(255,215,0,0.4); }
+  .box-title { font-size: 14px; font-weight: 900; margin-bottom: 5px; color: #FFD700; text-align: center; text-shadow: 0 0 8px #FFD700; }
+  .top3-item { font-size: 12px; margin: 4px 0; padding: 4px; background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent); border-radius: 6px; font-weight: 700; }
+  .cmd-item { font-size: 12px; margin: 4px 0; padding: 4px; background: rgba(0,191,255,0.2); border-radius: 6px; font-weight: 700; border: 1px solid #00BFFF; }
+  .chat { background: rgba(0,0,0,0.95); padding: 8px; margin: 3px; border: 2px solid #FF69B4; border-radius: 10px; font-size: 12px; max-height: 100px; overflow-y: auto; box-shadow: 0 0 15px rgba(255,105,180,0.4); }
+  .chat-msg { font-size: 14px!important; padding: 6px!important; margin: 6px 0!important; background: rgba(255,255,255,0.08); border-radius: 6px; border-right: 2px solid #FF69B4; animation: msgSlide 0.3s ease; }
+    @keyframes msgSlide { 0% { transform: translateX(15px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+  .chat-author { color: #FF69B4; font-weight: 900; font-size: 15px!important; }
+  .chat-bot { color: #00FF00; font-weight: 900; }
+  .chat-alert { background: linear-gradient(90deg, #FFD700, #FF0000); color: #000; font-weight: 900; text-align: center; padding: 6px; border-radius: 6px; animation: alertPulse 0.5s ease; }
     @keyframes alertPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    
-    .hints { background: rgba(0,0,0,0.7); padding: 6px; margin: 6px; border-radius: 10px; font-size: 11px; text-align: center; color: #FFD700; border: 1px solid #FFD700; }
-    
-    .footer { background: linear-gradient(90deg, #000, #FFD700, #000); padding: 8px; text-align: center; font-size: 12px; color: #000; font-weight: 900; margin: 6px; border-radius: 10px; }
-    
-    .controls { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 999; background: rgba(0,0,0,0.95); padding: 8px; border-radius: 15px; display: flex; gap: 6px; border: 2px solid #FFD700; }
-    .controls button { padding: 8px 12px; font-size: 12px; font-family: 'Cairo'; cursor: pointer; border: none; border-radius: 10px; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-    .btn-fajr { background: linear-gradient(135deg, #5BC0BE, #3A86FF); color: #fff; }
-    .btn-main { background: linear-gradient(135deg, #00BFFF, #0080FF); color: #fff; }
-    .btn-million { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; }
-    .btn-event { background: linear-gradient(135deg, #FF0000, #8B0000); color: #fff; }
-    
-    .lightning-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); pointer-events: none; opacity: 0; z-index: 9999; }
-    .flash-active { animation: flash 0.4s ease-out; }
+  .hints { background: rgba(0,0,0,0.7); padding: 4px; margin: 3px; border-radius: 8px; font-size: 10px; text-align: center; color: #FFD700; border: 1px solid #FFD700; }
+  .footer { background: linear-gradient(90deg, #000, #FFD700, #000); padding: 5px; text-align: center; font-size: 11px; color: #000; font-weight: 900; margin: 3px; border-radius: 8px; }
+  .lightning-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); pointer-events: none; opacity: 0; z-index: 9999; }
+  .flash-active { animation: flash 0.4s ease-out; }
     @keyframes flash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
-    
-    .audio-control { position: fixed; top: 10px; right: 10px; z-index: 999; background: rgba(0,0,0,0.8); padding: 8px 12px; border-radius: 10px; border: 2px solid #FFD700; cursor: pointer; font-size: 20px; }
+  .audio-control { position: fixed; top: 8px; right: 8px; z-index: 999; background: rgba(0,0,0,0.8); padding: 6px 10px; border-radius: 8px; border: 2px solid #FFD700; font-size: 18px; display: none; }
   </style>
 </head>
 <body>
   <div id="particles"></div>
   <div class="lightning-flash" id="flash"></div>
   <div class="bg-animated"></div>
-  
   <div class="audio-control" id="audioControl" onclick="toggleAudio()">🔊</div>
-  
   <div class="screen mode-main" id="screen">
     <div class="achievement-ticker">
-      <div class="ticker-content" id="ticker">👑 أكثر واحد يجمع نقاط في الأسبوع يربح إشراف على القناة لمدة 15👑|أكثر 3 يجمعون نقاط في اليوم نحط أسمائهم في بايو القناة ⚡ يوم</div>
+      <div class="ticker-content" id="ticker">👑 أكثر واحد يجمع نقاط في الأسبوع يربح إشراف على القناة لمدة 15 يوم 👑| أكثر 3 يجمعون نقاط في اليوم نحط أسمائهم في بايو القناة ⚡</div>
     </div>
-    
     <div class="mode-timer">
       <div id="timerText">المود الحالي: --:--</div>
       <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
     </div>
-    
     <div class="header">
       <div class="channel-name">👑 ɪʈʂ ʈɑkɪ!! 🇩🇿²⁴ 👑</div>
       <div class="mode-info" id="mode-text"><span class="live-status" id="liveStatus">⚫ أوفلاين</span> جاري التحميل...</div>
     </div>
-    
     <div class="joke-box">
       <div class="joke-title">😂 نكتة الحومة</div>
       <div class="joke-text" id="joke">واحد دخل للحومة.. لقا الكل مليونيرات.. قال: راني في الحلم ولا في TAKI؟ 😂</div>
     </div>
-    
     <div class="motivation-box">
       <div class="motivation-text" id="motivation">⚡ انت أسطورة الحومة.. المليون يستناك ⚡</div>
     </div>
-    
     <div class="stats-box">
       <div class="stats-title">📊 إحصائيات الإمبراطورية Live</div>
       <div class="stats-grid">
@@ -178,20 +135,17 @@
         <div class="goal-bar"><div class="goal-fill" id="goalFill"></div></div>
       </div>
     </div>
-    
     <div class="main-content" onclick="triggerFlash()">
       <div class="golden-word" id="goldenWord"></div>
       <div class="bomb-countdown" id="bombCountdown"></div>
       <div class="big-text" id="center-text">🔥 جاري التحميل... 🔥</div>
       <div class="sub-text" id="center-sub">⚡ الإمبراطورية تستعد ⚡</div>
-      
       <div class="wheel-container" id="wheelContainer">
         <div class="wheel-pointer">▼</div>
         <div class="wheel" id="wheel"></div>
         <div class="wheel-winner" id="wheelWinner"></div>
       </div>
     </div>
-    
     <div class="bottom-row">
       <div class="top3">
         <div class="box-title">👑 أبطال الإمبراطورية</div>
@@ -203,41 +157,31 @@
       </div>
       <div class="commands">
         <div class="box-title">⚡ أوامر الإمبراطور</div>
-        <div class="cmd-item">!لغز</div>
+        <div class="cmd-item">!لغز | !متجر</div>
         <div class="cmd-item">!جواب X</div>
-        <div class="cmd-item">!تفجير</div>
-        <div class="cmd-item">!نقاطي</div>
-        <div class="cmd-item">!ترتيب</div>
+        <div class="cmd-item">!تفجير | ! شراء لقب</div>
+        <div class="cmd-item">!نقاطي | !هدية @اسم</div>
+        <div class="cmd-item">!ترتيب | ! صخب | !استدعاء | !كنر X</div>
+        <div class="cmd-item">!هدية @اسم 200</div>
+        <div class="cmd-item">!متجر</div>
+        <div class="cmd-item">!شراء لقب</div>
+        <div class="cmd-item">!كنز X</div>
+        <div class="cmd-item">!صخب</div>
+        <div class="cmd-item">!استدعاء</div>
       </div>
     </div>
-    
     <div class="chat" id="chatBox">
       <div class="chat-msg"><span class="chat-author">محمد:</span> السلام عليكم يا إمبراطور ⚡👑</div>
     </div>
-    
-    <div class="hints" id="hints">💡 اكتب !لغز للغز جديد | !جواب X للجواب | !تفجير وقت التفجير</div>
-    
+    <div class="hints" id="hints">💡 اكتب!لغز للغز جديد |!جواب X للجواب |!تفجير وقت التفجير</div>
     <div class="footer">👑 مود المليون 20:00 | تابعنا @taki-off-24 | الحومة الإمبراطورية 24/7 🔥⚡</div>
   </div>
-  
-  <div class="controls">
-    <button class="btn-fajr" onclick="manualChangeMode('fajr')">🌙 الفجر</button>
-    <button class="btn-main" onclick="manualChangeMode('main')">⚡ الحومة</button>
-    <button class="btn-million" onclick="manualChangeMode('million')">👑 المليون</button>
-    <button class="btn-event" onclick="manualChangeMode('event')">🔥 الحدث</button>
-  </div>
-
-  <audio id="quranAudio" loop>
-    <source src="https://server8.mp3quran.net/afs/001.mp3" type="audio/mpeg">
-  </audio>
-  
-  <audio id="funkAudio" loop>
-    <source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg">
-  </audio>
-
+  <audio id="quranAudio" loop><source src="https://server8.mp3quran.net/afs/002.mp3" type="audio/mpeg"></audio>
+  <audio id="funkAudio" loop><source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg"></audio>
   <script>
     const API_URL = 'https://sad-anchovy-80.takismartgamer123-rgb.deno.net';
-    
+
+    // زيد 200 نكتة تاعك هنا
     const jokes = [
 "واحد دخل للحومة.. لقا الكل مليونيرات.. قال: راني في الحلم ولا في TAKI؟ 😂",
 "قالو للأستاذ علاش ما تدخلش لايف TAKI؟ قال: نخاف نولي تلميذ 😂",
@@ -697,7 +641,25 @@ const goldenWords = [
   "نجاح","تفوق","تميز","إبداع","ابتكار","اختراع","عبقرية","ذكاء","دهاء","حكمة",
   "فخر","اعتزاز","شموخ","سمو","علو","رفعة","سيادة","زعامة","ريادة","قيادة"
 ];
-    
+
+    // 👑 قضايا المحكمة - تتغير كل يوم تلقائيا
+    const courtCases = [
+      "سرقة ستيلو الأستاذ", "أكل آخر قطعة بيتزا", "تأخر عن اللايف 5 دقايق", "نسى كلمة السر",
+      "ضحك بصوت عالي في المكتبة", "شرب قهوة صاحبك بلا إذن", "استعمل وايفاي الجيران",
+      "غش في لعبة الورق", "نام في حصة الرياضيات", "قال نكتة بايخة", "دخل للدار بالحذاء",
+      "لعب بالهاتف في العرس", "كلا الشوكولا تاع أختو", "نسى عيد ميلاد أمو", "تفرج أنمي في الخدمة","يلعب في وقت الباك","ياكل الشيكولا مع الهريسة","أكل الشوارما بالسكر بدل الملح","الصلاة بلا وضوء"
+    ];
+
+    // 🛒 متجر الألقاب
+    const shopTitles = [
+      { name: 'ملك اللايف', price: 5000, emoji: '👑' },
+      { name: 'أسطورة', price: 3000, emoji: '⚡' },
+      { name: 'محارب', price: 1500, emoji: '🗡️' },
+      { name: 'VIP', price: 1000, emoji: '💎' },
+      { name: 'نجم', price: 800, emoji: '🌟' },
+      { name: 'بطل', price: 600, emoji: '🏆' }
+    ];
+
     let jokeIndex = 0, motivIndex = 0, riddleIndex = 0;
     let currentMode = '';
     let goalTarget = 5000;
@@ -709,19 +671,37 @@ const goldenWords = [
     let goldenWordActive = null;
     let bombActive = false;
     let bombTimer = null;
-    
+    let treasureActive = false;
+
     const quranAudio = document.getElementById('quranAudio');
     const funkAudio = document.getElementById('funkAudio');
     quranAudio.volume = 0.3;
     funkAudio.volume = 0.2;
-    
+
     const sounds = {
       thunder: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
       clap: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
       laugh: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA='),
       bomb: new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=')
     };
-    
+
+    function savePoints(user, points) {
+      fetch(`${API_URL}/addPoints`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ user: user, points: points })
+      }).catch(e => console.log('Points save error:', e));
+    }
+
+    function addChatAlert(msg) {
+      const chatBox = document.getElementById('chatBox');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-alert';
+      msgDiv.innerHTML = msg;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
     function toggleAudio() {
       audioEnabled =!audioEnabled;
       document.getElementById('audioControl').textContent = audioEnabled? '🔊' : '🔇';
@@ -732,7 +712,7 @@ const goldenWords = [
         playModeAudio();
       }
     }
-    
+
     function playModeAudio() {
       if (!audioEnabled) return;
       quranAudio.pause();
@@ -743,14 +723,14 @@ const goldenWords = [
         funkAudio.play().catch(e => {});
       }
     }
-    
+
     function getAlgeriaTime() {
       const now = new Date();
       const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
       const algTime = new Date(utc + (3600000 * 1));
       return algTime;
     }
-    
+
     function getCurrentModeByTime() {
       const hour = getAlgeriaTime().getHours();
       if (hour >= 0 && hour < 8) return 'fajr';
@@ -758,7 +738,7 @@ const goldenWords = [
       if (hour >= 20 && hour < 23) return 'million';
       return 'event';
     }
-    
+
     function getNextModeTime() {
       const now = getAlgeriaTime();
       const hour = now.getHours();
@@ -767,7 +747,6 @@ const goldenWords = [
       else if (hour >= 8 && hour < 20) nextHour = 20;
       else if (hour >= 20 && hour < 23) nextHour = 23;
       else nextHour = 24;
-      
       const next = new Date(now);
       next.setHours(nextHour, 0, 0, 0);
       if (nextHour === 24) {
@@ -776,7 +755,7 @@ const goldenWords = [
       }
       return next;
     }
-    
+
     function createParticle(type) {
       const particle = document.createElement('div');
       particle.className = 'particle';
@@ -789,7 +768,7 @@ const goldenWords = [
       document.getElementById('particles').appendChild(particle);
       setTimeout(() => particle.remove(), 10000);
     }
-    
+
     function startParticles() {
       setInterval(() => {
         if (currentMode === 'fajr') createParticle('heart');
@@ -798,7 +777,7 @@ const goldenWords = [
         else createParticle('star');
       }, 500);
     }
-    
+
     function changeMode(mode, manual = false) {
       if (currentMode === mode &&!manual) return;
       currentMode = mode;
@@ -807,30 +786,33 @@ const goldenWords = [
       const centerText = document.getElementById('center-text');
       const centerSub = document.getElementById('center-sub');
       screen.className = 'screen mode-' + mode;
-      
       const liveSpan = isLive? '<span class="live-status active">🔴 مباشر</span>' : '<span class="live-status">⚫ أوفلاين</span>';
-      
+
       if (mode === 'fajr') {
         modeText.innerHTML = liveSpan + ' مود الفجر الملكي 🌙 00:00-08:00';
         centerText.innerHTML = '🌙 بسم الله الرحمن الرحيم 🌙<br>قرآن كريم يتلى';
-                centerSub.innerHTML = '🕌 اكتب "آمين" +200 حسنة | قرآن كريم';
+        centerSub.innerHTML = '🕌 اكتب "آمين" +200 حسنة | قرآن كريم';
         updateHints('🕌 مود الفجر: اكتب آمين |!نقاطي');
       } else if (mode === 'main') {
         modeText.innerHTML = liveSpan + ' مود الحومة الإمبراطوري ⚡ 08:00-20:00';
         showNewRiddle();
         centerSub.innerHTML = '⚡ أسرع 3 يربحو 200 نقطة + لقب "برق الإمبراطور" ⚡';
-        updateHints('⚡ اكتب!لغز للغز جديد |!جواب X للجواب');
+        updateHints('⚡ اكتب!لغز للغز جديد |!جواب X للجواب |!هدية @اسم 200');
       } else if (mode === 'million') {
         modeText.innerHTML = liveSpan + ' مود المليون الملكي 👑 20:00-23:00';
         centerText.innerHTML = '👑 سؤال المليون الذهبي 👑<br>انتظر تفجير اللحظات...';
         centerSub.innerHTML = '💎 اكتب!تفجير وقت التفجير | الجائزة: 200-1000 نقطة';
-        updateHints('👑 اكتب!تفجير وقت التفجير |!نقاطي |!ترتيب');
+        updateHints('👑 اكتب!تفجير وقت التفجير |!نقاطي |!ترتيب |!كنز X |!متجر');
         startBombSystem();
+        fetch(`${API_URL}/treasure?action=new`);
       } else if (mode === 'event') {
+        const today = getAlgeriaTime().getDate();
+        const caseIndex = today % courtCases.length;
+        const currentCase = courtCases[caseIndex];
         modeText.innerHTML = liveSpan + ' حدث TAKI الأسطوري 🔥 23:00-00:00';
-        centerText.innerHTML = '⚖️ محكمة الإمبراطور ⚖️<br>التهمة: سرقة ستيلو الأستاذ';
+        centerText.innerHTML = `⚖️ محكمة الإمبراطور ⚖️<br>التهمة: ${currentCase}`;
         centerSub.innerHTML = '🔥 اكتب!براءة أو!إدانة | الجائزة: 5000 نقطة';
-        updateHints('🔥 اكتب!براءة أو!إدانة |!نقاطي');
+                updateHints('🔥 اكتب!براءة أو!إدانة |!نقاطي |!صخب |!استدعاء');
       }
       triggerFlash();
       playModeAudio();
@@ -865,15 +847,12 @@ const goldenWords = [
       const hours = Math.floor(diff / 3600000);
       const mins = Math.floor((diff % 3600000) / 60000);
       const secs = Math.floor((diff % 60000) / 1000);
-
       document.getElementById('timerText').textContent = `المود الحالي ينتهي في: ${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-
       const modeStart = new Date(now);
       if (currentMode === 'fajr') modeStart.setHours(0,0,0,0);
       else if (currentMode === 'main') modeStart.setHours(8,0,0,0);
       else if (currentMode === 'million') modeStart.setHours(20,0,0,0);
       else modeStart.setHours(23,0,0,0);
-
       const totalMs = next - modeStart;
       const elapsed = now - modeStart;
       const percent = (elapsed / totalMs) * 100;
@@ -888,17 +867,14 @@ const goldenWords = [
           document.getElementById('subCount').textContent = data.subs;
           document.getElementById('viewCount').textContent = data.views;
           document.getElementById('videoCount').textContent = data.videos;
-
           const currentSubs = data.raw_subs;
           document.getElementById('goalCurrent').textContent = currentSubs.toLocaleString('ar-DZ');
-
           if (currentSubs >= goalTarget) {
             goalTarget += 200;
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             sounds.clap.play().catch(e => {});
             addChatAlert(`🎉 وصلنا ${goalTarget - 200} مشترك! الهدف الجديد: ${goalTarget}`);
           }
-
           document.getElementById('goalTarget').textContent = goalTarget.toLocaleString('ar-DZ');
           const percent = Math.min((currentSubs / goalTarget) * 100, 100);
           document.getElementById('goalFill').style.width = percent + '%';
@@ -911,61 +887,52 @@ const goldenWords = [
         const res = await fetch(`${API_URL}/chat`);
         const data = await res.json();
         const chatBox = document.getElementById('chatBox');
-
         if (data.success && data.messages.length > 0) {
           if (!isLive) {
             isLive = true;
             document.getElementById('liveStatus').classList.add('active');
             document.getElementById('liveStatus').textContent = '🔴 مباشر';
           }
-
-          data.messages.forEach(msg => {
+          data.messages.forEach(async msg => {
             if (msg.id === lastChatId) return;
-
             const msgDiv = document.createElement('div');
             msgDiv.className = 'chat-msg';
-
             let userClass = 'chat-author';
             if (msg.isOwner) userClass += ' owner';
             else if (msg.isMod) userClass += ' mod';
-
             msgDiv.innerHTML = `<span class="${userClass}">${msg.user}:</span> ${msg.message}`;
             chatBox.appendChild(msgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
-
             if (!wheelUsers.includes(msg.user) &&!msg.isOwner &&!msg.isMod) {
               wheelUsers.push(msg.user);
             }
-
-            // معالجة الأوامر
             const lowerMsg = msg.message.toLowerCase().trim();
 
-            //!لغز
-            if (lowerMsg === '!لغز') {
-              showNewRiddle();
-              triggerFlash();
-            }
+            // 👑 الأوامر الأساسية
+            if (lowerMsg === '!لغز') { showNewRiddle(); triggerFlash(); }
 
-            //!جواب
             if (lowerMsg.startsWith('!جواب ') && currentRiddle) {
               const answer = lowerMsg.replace('!جواب ', '').trim();
               if (answer === currentRiddle.a.toLowerCase()) {
-                addChatAlert(`⚡ ${msg.user} جاوب صح! +200 نقطة 👑`);
+                const points = 200;
+                savePoints(msg.user, points);
+                addChatAlert(`⚡ ${msg.user} جاوب صح! +${points} نقطة 👑`);
                 confetti({ particleCount: 50, spread: 60 });
                 triggerFlash();
                 showNewRiddle();
               }
             }
 
-            // آمين في مود الفجر
             if (currentMode === 'fajr' && (lowerMsg === 'آمين' || lowerMsg === 'امين')) {
-              addChatAlert(`🕌 ${msg.user} قال آمين +200 حسنة 🌙`);
+              const points = 200;
+              savePoints(msg.user, points);
+              addChatAlert(`🕌 ${msg.user} قال آمين +${points} حسنة 🌙`);
               sounds.clap.play().catch(e => {});
             }
 
-            //!تفجير
             if (lowerMsg === '!تفجير' && bombActive) {
-              const points = Math.floor(Math.random() * 800) + 200; // 200-1000
+              const points = Math.floor(Math.random() * 800) + 200;
+              savePoints(msg.user, points);
               addChatAlert(`💣 BOOM! ${msg.user} فجر اللحظة وربح ${points} نقطة! 👑`);
               confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
               sounds.bomb.play().catch(e => {});
@@ -973,9 +940,9 @@ const goldenWords = [
               document.getElementById('bombCountdown').classList.remove('active');
             }
 
-            // الكلمة الذهبية
             if (goldenWordActive && lowerMsg === goldenWordActive.toLowerCase()) {
-              const points = Math.floor(Math.random() * 300) + 200; // 200-500
+              const points = Math.floor(Math.random() * 300) + 200;
+              savePoints(msg.user, points);
               addChatAlert(`💰 ${msg.user} مسك الكلمة الذهبية "${goldenWordActive}" وربح ${points} نقطة! ✨`);
               confetti({ particleCount: 100, spread: 70 });
               sounds.clap.play().catch(e => {});
@@ -983,14 +950,133 @@ const goldenWords = [
               document.getElementById('goldenWord').classList.remove('active');
             }
 
-            // كلمة عادية للضحك
             if (lowerMsg.includes('!نكتة')) {
               sounds.laugh.play().catch(e => {});
               jokeIndex = (jokeIndex + 1) % jokes.length;
               document.getElementById('joke').innerHTML = jokes[jokeIndex];
             }
-          });
 
+            // 👑 أمر!نقاطي محدث - يعرض اللفل واللقب
+            if (lowerMsg === '!نقاطي') {
+              try {
+                const res = await fetch(`${API_URL}/getUser?user=${encodeURIComponent(msg.user)}`);
+                const data = await res.json();
+                if (data.success) {
+                  addChatAlert(`👑 ${data.user} | لفل ${data.level} | ${data.title} | ${data.points} نقطة 💎`);
+                }
+              } catch (e) {}
+            }
+
+            // 🎁 أمر!هدية
+            if (lowerMsg.startsWith('!هدية ')) {
+              const parts = msg.message.split(' ');
+              if (parts.length === 3) {
+                const to = parts[1].replace('@', '');
+                const amount = parseInt(parts[2]);
+                try {
+                  const res = await fetch(`${API_URL}/gift?from=${encodeURIComponent(msg.user)}&to=${encodeURIComponent(to)}&amount=${amount}`);
+                  const data = await res.json();
+                  if (data.success) {
+                    addChatAlert(`🎁 ${msg.user} أهدى ${amount} نقطة لـ ${to} 💖`);
+                    confetti({ particleCount: 100, spread: 70 });
+                  } else {
+                    addChatAlert(`❌ ${data.error}`);
+                  }
+                } catch (e) {}
+              }
+            }
+
+            // 🛒 أمر!متجر
+            if (lowerMsg === '!متجر') {
+              let shopText = '🛒 متجر الألقاب: ';
+              shopTitles.forEach(t => {
+                shopText += `${t.emoji}${t.name}=${t.price} | `;
+              });
+              shopText += 'اكتب!شراء اسم_اللقب';
+              addChatAlert(shopText);
+            }
+
+            // 💰 أمر!شراء
+            if (lowerMsg.startsWith('!شراء ')) {
+              const titleName = msg.message.replace('!شراء ', '').trim();
+              const title = shopTitles.find(t => t.name === titleName);
+              if (title) {
+                try {
+                  const res = await fetch(`${API_URL}/buy?user=${encodeURIComponent(msg.user)}&title=${encodeURIComponent(title.emoji + ' ' + title.name)}&price=${title.price}`);
+                  const data = await res.json();
+                  if (data.success) {
+                    addChatAlert(`👑 مبروك ${msg.user} شريت لقب ${data.title} 💎`);
+                    confetti({ particleCount: 150, spread: 100 });
+                  } else {
+                    addChatAlert(`❌ ${data.error}`);
+                  }
+                } catch (e) {}
+              }
+            }
+
+            // 🎯 أمر!كنز
+            if (lowerMsg.startsWith('!كنز ')) {
+              const guess = parseInt(lowerMsg.replace('!كنز ', ''));
+              try {
+                const res = await fetch(`${API_URL}/treasure?action=guess&user=${encodeURIComponent(msg.user)}&guess=${guess}`);
+                const data = await res.json();
+                if (data.win) {
+                  addChatAlert(`🎉 ${msg.user} لقى الكنز ${data.number} وربح 1000 نقطة 💰`);
+                  confetti({ particleCount: 200, spread: 160 });
+                } else {
+                  addChatAlert(`💡 ${msg.user} الرقم ${data.hint} من ${guess}`);
+                }
+              } catch (e) {}
+            }
+
+            // ✨ أمر!صخب
+            if (lowerMsg === '!صخب') {
+              try {
+                const res = await fetch(`${API_URL}/getUser?user=${encodeURIComponent(msg.user)}`);
+                const data = await res.json();
+                if (data.points >= 500) {
+                  await fetch(`${API_URL}/addPoints`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user: msg.user, points: -500 })
+                  });
+                  addChatAlert(`🌈 ${msg.user} فعل الصخب الملون!`);
+                  confetti({ particleCount: 100, spread: 360 });
+                } else {
+                  addChatAlert(`❌ ${msg.user} لازم 500 نقطة`);
+                }
+              } catch (e) {}
+            }
+
+            // 📢 أمر!استدعاء
+            if (lowerMsg === '!استدعاء') {
+              try {
+                const res = await fetch(`${API_URL}/getUser?user=${encodeURIComponent(msg.user)}`);
+                const data = await res.json();
+                if (data.points >= 1000) {
+                  await fetch(`${API_URL}/addPoints`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user: msg.user, points: -1000 })
+                  });
+                  document.getElementById('center-text').innerHTML = `📢 ${msg.user} يستدعيكم!<br>👑🔥⚡`;
+                  setTimeout(() => changeMode(currentMode, true), 5000);
+                  confetti({ particleCount: 200, spread: 160 });
+                  addChatAlert(`📢 استدعاء من ${msg.user}!`);
+                } else {
+                  addChatAlert(`❌ ${msg.user} لازم 1000 نقطة`);
+                }
+              } catch (e) {}
+            }
+
+            // ⚖️ أوامر المحكمة
+            if (lowerMsg === '!براءة' || lowerMsg === '!إدانة') {
+              const points = 100;
+              savePoints(msg.user, points);
+              const verdict = lowerMsg === '!براءة'? 'براءة ✅' : 'إدانة ❌';
+              addChatAlert(`⚖️ ${msg.user} حكم بـ ${verdict} +${points} نقطة`);
+            }
+          });
           if (data.messages.length > 0) {
             lastChatId = data.messages[data.messages.length - 1].id;
           }
@@ -1004,33 +1090,22 @@ const goldenWords = [
       } catch (e) { console.error('Chat Error:', e); }
     }
 
-    function addChatAlert(text) {
-      const chatBox = document.getElementById('chatBox');
-      const alertDiv = document.createElement('div');
-      alertDiv.className = 'chat-alert';
-      alertDiv.textContent = text;
-      chatBox.appendChild(alertDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
     function spinWheel() {
       if (wheelUsers.length === 0) return;
-
       const wheelContainer = document.getElementById('wheelContainer');
       const wheel = document.getElementById('wheel');
       const winner = document.getElementById('wheelWinner');
-
       wheelContainer.classList.add('active');
       const randomUser = wheelUsers[Math.floor(Math.random() * wheelUsers.length)];
       const rotation = 3600 + Math.random() * 360;
       wheel.style.transform = `rotate(${rotation}deg)`;
-
       setTimeout(() => {
-        winner.textContent = `🎉 الفائز: ${randomUser} +500 نقطة 🎉`;
+        const points = 500;
+        savePoints(randomUser, points);
+        winner.textContent = `🎉 الفائز: ${randomUser} +${points} نقطة 🎉`;
         confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
         sounds.clap.play().catch(e => {});
-        addChatAlert(`🎰 عجلة الحظ: ${randomUser} ربح 500 نقطة!`);
-
+        addChatAlert(`🎰 عجلة الحظ: ${randomUser} ربح ${points} نقطة!`);
         setTimeout(() => {
           wheelContainer.classList.remove('active');
           wheel.style.transform = 'rotate(0deg)';
@@ -1039,14 +1114,13 @@ const goldenWords = [
       }, 4000);
     }
 
-    // نظام تفجير اللحظات في مود المليون
     function startBombSystem() {
       if (currentMode!== 'million') return;
       setInterval(() => {
         if (currentMode === 'million' &&!bombActive) {
           triggerBomb();
         }
-      }, 900000); // كل 15 دقيقة
+      }, 900000);
     }
 
     function triggerBomb() {
@@ -1055,7 +1129,6 @@ const goldenWords = [
       const bombEl = document.getElementById('bombCountdown');
       bombEl.classList.add('active');
       addChatAlert('💣 تفجير اللحظات بعد 10 ثواني! اكتب!تفجير بسرعة!');
-
       bombTimer = setInterval(() => {
         bombEl.textContent = count;
         if (count === 0) {
@@ -1070,7 +1143,6 @@ const goldenWords = [
       }, 1000);
     }
 
-    // الكلمة الذهبية كل 5 دقائق
     function spawnGoldenWord() {
       if (goldenWordActive) return;
       goldenWordActive = goldenWords[Math.floor(Math.random() * goldenWords.length)];
@@ -1078,13 +1150,12 @@ const goldenWords = [
       wordEl.textContent = `✨ ${goldenWordActive} ✨`;
       wordEl.classList.add('active');
       addChatAlert(`💰 كلمة ذهبية جديدة! أول واحد يكتبها يربح 200-500 نقطة!`);
-
       setTimeout(() => {
         if (goldenWordActive) {
           wordEl.classList.remove('active');
           goldenWordActive = null;
         }
-      }, 60000); // تختفي بعد دقيقة
+      }, 60000);
     }
 
     setInterval(() => {
@@ -1099,14 +1170,9 @@ const goldenWords = [
     }, 7000);
 
     setInterval(spinWheel, 7200000);
-    setInterval(spawnGoldenWord, 300000); // كل 5 دقائق
+    setInterval(spawnGoldenWord, 300000);
+    setInterval(() => { if (currentMode === 'main') showNewRiddle(); }, 60000);
 
-    // تبديل الألغاز كل دقيقة في مود الحومة
-    setInterval(() => {
-      if (currentMode === 'main') showNewRiddle();
-    }, 60000);
-
-    // تشغيل التحديثات
     startParticles();
     changeMode(getCurrentModeByTime());
     updateStats();
